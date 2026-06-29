@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{overflow:hidden}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+@keyframes lineIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+@keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes rpgPulse{0%,100%{opacity:1}50%{opacity:0.3}}
+@keyframes glitch{0%,87%,100%{transform:none;filter:none}89%{transform:translate(-3px,0);filter:hue-rotate(90deg)}92%{transform:translate(3px,0);filter:hue-rotate(-90deg)}95%{transform:none;filter:saturate(4)}}
+@keyframes bordFade{0%,100%{opacity:1}50%{opacity:0.35}}
+@keyframes dashMove{to{stroke-dashoffset:-20}}
+@keyframes cardFlyIn{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:none}}
+@keyframes spark1{0%,100%{opacity:0.1}50%{opacity:1}}
+@keyframes spark2{0%,70%{opacity:0.05}35%{opacity:0.85}}
+@keyframes spark3{0%,100%{opacity:0.15}40%{opacity:0.9}}
+@keyframes coinFall{0%{transform:translateY(-60px) rotate(0deg);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+@keyframes coinSpin{0%{transform:scaleX(1)}25%{transform:scaleX(0.2)}50%{transform:scaleX(1)}75%{transform:scaleX(0.2)}100%{transform:scaleX(1)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes zoneReveal{from{opacity:0;transform:scale(0.88)}to{opacity:1;transform:scale(1)}}
+</style>
+</helmet>
+
+<div style="width:100vw;height:100vh;background:{{ t.bg }};overflow:hidden;position:relative;font-family:'Courier New',monospace;color:{{ t.tx }}">
+
+  <!-- pixel grid -->
+  <div style="position:absolute;inset:0;pointer-events:none;opacity:0.035;z-index:0;
+    background-image:linear-gradient({{ t.g }} 1px,transparent 1px),linear-gradient(90deg,{{ t.g }} 1px,transparent 1px);
+    background-size:32px 32px"></div>
+  <!-- scanlines -->
+  <div style="position:absolute;inset:0;pointer-events:none;z-index:1;
+    background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.05) 3px,rgba(0,0,0,0.05) 4px)"></div>
+
+  <!-- ══════════════════ INTRO ══════════════════ -->
+  <sc-if value="{{ showI }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative;z-index:10;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer" onClick="{{ nx }}">
+      <div style="width:100%;max-width:700px;padding:48px 48px 32px">
+        <sc-if value="{{ i1 }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:20px;color:{{ t.g }};margin-bottom:10px;animation:lineIn 0.3s ease forwards">
+            <span style="opacity:0.4">›</span> Iniciando entorno de análisis...
+          </div>
+        </sc-if>
+        <sc-if value="{{ i2 }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:20px;color:{{ t.g }};margin-bottom:10px;animation:lineIn 0.3s ease forwards">
+            <span style="opacity:0.4">›</span> Cargando dataset: <span style="color:{{ t.a }}">Ejercicio_Fraude.csv</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ i3 }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:20px;color:{{ t.g }};margin-bottom:10px;animation:lineIn 0.3s ease forwards">
+            <span style="opacity:0.4">›</span> Registros cargados: <span style="color:{{ t.bl }}">50,000 transacciones · Q1 2026</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ i4 }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:20px;color:{{ t.g }};margin-bottom:10px;animation:lineIn 0.3s ease forwards">
+            <span style="opacity:0.4">›</span> Features disponibles: <span style="color:{{ t.bl }}">9 columnas · desbalance severo</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ i5 }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:20px;color:{{ t.g }};margin-bottom:10px;animation:lineIn 0.3s ease forwards">
+            <span style="opacity:0.4">›</span> Escaneando patrones anómalos...
+          </div>
+        </sc-if>
+        <sc-if value="{{ i6 }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:20px;font-weight:bold;margin-bottom:10px;animation:lineIn 0.3s ease forwards;color:{{ t.r }}">
+            <span style="animation:rpgPulse 0.8s infinite">⚠</span>&nbsp; ALERTA: <span style="color:{{ t.a }}">750 CASOS DE FRAUDE — 1.5% DEL TRÁFICO</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ i7 }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:20px;color:{{ t.tx }};margin-bottom:10px;animation:lineIn 0.3s ease forwards">
+            <span style="opacity:0.4">›</span> Enemigos camuflados entre aliados. Reglas estáticas insuficientes.
+          </div>
+        </sc-if>
+        <sc-if value="{{ i8 }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:20px;color:{{ t.a }};margin-bottom:24px;animation:lineIn 0.3s ease forwards">
+            <span style="opacity:0.4">›</span> Intervención del Analista requerida. Iniciando protocolo FRAUD QUEST...
+          </div>
+        </sc-if>
+        <sc-if value="{{ i4 }}" hint-placeholder-val="{{ false }}">
+          <div style="height:4px;background:{{ t.b }};margin-bottom:36px;overflow:hidden">
+            <div style="height:100%;background:{{ t.g }};width:{{ introBarW }};transition:width 0.7s ease"></div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ i8 }}" hint-placeholder-val="{{ false }}">
+          <div style="text-align:center;animation:slideUp 0.5s ease forwards">
+            <h1 style="font-family:'Press Start 2P',monospace;font-size:38px;color:{{ t.a }};
+              text-shadow:0 0 30px {{ t.a }},0 0 60px {{ t.a }}44;
+              animation:glitch 9s infinite 3s;letter-spacing:0.05em;line-height:1.5">FRAUD QUEST</h1>
+            <p style="font-size:12px;color:{{ t.g }};margin-top:20px;font-family:'Press Start 2P',monospace;animation:blink 1.1s infinite">
+              ▶ CLICK PARA COMENZAR
+            </p>
+            <p style="font-size:13px;color:{{ t.di }};margin-top:10px">← → Space Enter · Click para navegar</p>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ══════════════════ GAME ══════════════════ -->
+  <sc-if value="{{ showG }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative;z-index:10;width:100%;height:100%;display:flex;flex-direction:column">
+
+      <!-- TOP BAR -->
+      <div style="flex-shrink:0;height:50px;background:{{ t.p }};border-bottom:1px solid {{ t.b }};
+        display:flex;align-items:center;justify-content:space-between;padding:0 18px;gap:10px">
+        <div style="display:flex;align-items:center;gap:12px;flex-shrink:0">
+          <span style="font-family:'Press Start 2P',monospace;font-size:12px;color:{{ t.a }};text-shadow:0 0 10px {{ t.a }}66">FRAUD QUEST</span>
+          <div style="display:flex;gap:3px">
+            <button onClick="{{ setThV }}" style="font-size:12px;padding:3px 7px;cursor:pointer;
+              border:1px solid {{ thVBorder }};background:{{ thVBg }};color:{{ thVColor }};font-family:'Press Start 2P',monospace;transition:all 0.15s">VOID</button>
+            <button onClick="{{ setThP }}" style="font-size:12px;padding:3px 7px;cursor:pointer;
+              border:1px solid {{ thPBorder }};background:{{ thPBg }};color:{{ thPColor }};font-family:'Press Start 2P',monospace;transition:all 0.15s">PLASMA</button>
+            <button onClick="{{ setThF }}" style="font-size:12px;padding:3px 7px;cursor:pointer;
+              border:1px solid {{ thFBorder }};background:{{ thFBg }};color:{{ thFColor }};font-family:'Press Start 2P',monospace;transition:all 0.15s">PHOSPHOR</button>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:4px">
+          <!-- ADVENTURE MAP — horizontal path through all scenes -->
+          <div style="display:flex;align-items:center;gap:0;overflow-x:auto;max-width:420px;scrollbar-width:none">
+            <sc-for list="{{ mapNodes }}" as="mn" hint-placeholder-count="13">
+              <div style="display:flex;align-items:center;flex-shrink:0">
+                <button onClick="{{ mn.go }}" title="{{ mn.tip }}"
+                  style="display:flex;flex-direction:column;align-items:center;gap:1px;padding:2px 4px;
+                    border:1px solid {{ mn.border }};background:{{ mn.bg }};cursor:pointer;
+                    min-width:28px;transition:all 0.18s;position:relative">
+                  <span style="font-size:10px;line-height:1">{{ mn.ic }}</span>
+                  <span style="font-size:7px;color:{{ mn.col }};font-family:'Press Start 2P',monospace;line-height:1;white-space:nowrap">{{ mn.lbl }}</span>
+                  <sc-if value="{{ mn.cur }}" hint-placeholder-val="{{ false }}">
+                    <div style="position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);
+                      width:4px;height:4px;background:{{ t.a }};animation:rpgPulse 0.8s infinite"></div>
+                  </sc-if>
+                </button>
+                <sc-if value="{{ mn.notLast }}" hint-placeholder-val="{{ true }}">
+                  <div style="width:6px;height:1px;background:{{ mn.lineCol }};flex-shrink:0"></div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+          <button onClick="{{ toggleMusic }}" title="Música 8-bit" style="font-size:12px;padding:3px 9px;cursor:pointer;
+            border:1px solid {{ musicBorder }};background:{{ musicBg }};color:{{ musicColor }};
+            font-family:'Press Start 2P',monospace;transition:all 0.15s">{{ musicLabel }}</button>
+          <span style="font-family:'Press Start 2P',monospace;font-size:13px;color:{{ t.di }};white-space:nowrap">{{ levelDisplay }}</span>
+        </div>
+      </div>
+
+      <!-- SLIDE AREA -->
+      <div style="{{ ss }}" onClick="{{ nxSafe }}">
+
+        <!-- ─ 0: TITLE ─ -->
+        <sc-if value="{{ is0 }}" hint-placeholder-val="{{ false }}">
+          <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:40px;background:linear-gradient(rgba(27,31,48,0.84),rgba(27,31,48,0.84)),url('uploads/fantasy_kingdom_overworld_map.jpeg') center/cover">
+            <div style="font-size:52px;animation:float 3s ease-in-out infinite">⚔️</div>
+            <h1 style="font-family:'Press Start 2P',monospace;font-size:30px;color:{{ t.a }};
+              text-shadow:0 0 40px {{ t.a }},0 0 80px {{ t.a }}44;animation:glitch 10s infinite 4s;text-align:center;line-height:1.5">FRAUD QUEST</h1>
+            <p style="font-size:14px;color:{{ t.tx }};text-align:center;line-height:2">
+              La historia de cómo un analista enfrentó<br>750 monstruos entre 50,000 transacciones
+            </p>
+            <div style="display:flex;align-items:center;gap:44px">
+              <div style="text-align:center">
+                <div style="font-size:44px;animation:float 2.5s ease-in-out infinite">🧙</div>
+                <div style="font-size:14px;color:{{ t.tx }};font-family:'Press Start 2P',monospace;margin-top:6px">EL ANALISTA</div>
+                <div style="font-size:12px;color:{{ t.g }};margin-top:3px">HP ████████ 100%</div>
+              </div>
+              <span style="font-family:'Press Start 2P',monospace;font-size:20px;color:{{ t.di }}">VS</span>
+              <div style="text-align:center">
+                <div style="font-size:44px;animation:float 2s ease-in-out infinite 0.5s">👾</div>
+                <div style="font-size:14px;color:{{ t.tx }};font-family:'Press Start 2P',monospace;margin-top:6px">EL FRAUDE</div>
+                <div style="font-size:12px;color:{{ t.r }};margin-top:3px">×750 instancias</div>
+              </div>
+            </div>
+            <div style="font-family:'Press Start 2P',monospace;font-size:12px;color:{{ t.g }};animation:blink 1.1s infinite">▶ PRESS START</div>
+          </div>
+        </sc-if>
+
+        <!-- ─ 1: EL REINO ─ -->
+        <sc-if value="{{ is1 }}" hint-placeholder-val="{{ false }}">
+          <div style="width:100%;height:100%;display:flex;flex-direction:column;padding:36px 64px;overflow:hidden">
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px;flex-shrink:0">
+              <span style="font-size:30px">🗺️</span>
+              <h2 style="font-family:'Press Start 2P',monospace;font-size:14px;color:{{ t.bl }}">EL REINO DE COMFAMA</h2>
+            </div>
+            <p style="font-size:14px;color:{{ t.tx }};margin-bottom:22px;line-height:2;flex-shrink:0">
+              Un reino financiero tranquilo. Miles de transacciones fluyen cada día. Pero algo acecha en las sombras.
+            </p>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;flex-shrink:0">
+              <div style="border:1px solid {{ t.bl }};background:{{ t.bl }}11;padding:18px;text-align:center">
+                <div style="font-size:22px;color:{{ t.bl }};font-family:'Press Start 2P',monospace;margin-bottom:6px">50K</div>
+                <div style="font-size:12px;color:{{ t.tx }}">TRANSACCIONES</div>
+              </div>
+              <div style="border:1px solid {{ t.r }};background:{{ t.r }}11;padding:18px;text-align:center">
+                <div style="font-size:22px;color:{{ t.r }};font-family:'Press Start 2P',monospace;margin-bottom:6px">750</div>
+                <div style="font-size:12px;color:{{ t.tx }}">FRAUDES OCULTOS</div>
+              </div>
+              <div style="border:1px solid {{ t.a }};background:{{ t.a }}11;padding:18px;text-align:center">
+                <div style="font-size:22px;color:{{ t.a }};font-family:'Press Start 2P',monospace;margin-bottom:6px">1.5%</div>
+                <div style="font-size:12px;color:{{ t.tx }}">TASA DE INFECCIÓN</div>
+              </div>
+            </div>
+            <!-- Scene: camaleón fraude oculto entre transacciones -->
+            <div style="flex-shrink:0;margin-bottom:12px;padding:10px 16px;background:{{ t.bg }};border:1px dashed {{ t.b }}55;display:flex;align-items:center;gap:10px;overflow:hidden">
+              <div style="flex-shrink:0;width:78px;height:50px;overflow:hidden;margin-right:4px;border:1px solid #A1380033"><img src="uploads/kingdom_marketplace_with_merchan.jpeg" alt="" style="width:100%;height:100%;object-fit:cover"/></div><span style="font-size:11px;color:{{ t.di }};font-family:'Courier New',monospace;flex-shrink:0">EL FRAUDE:</span>
+              <div style="display:flex;align-items:center;gap:5px;flex:1">
+                <span style="font-size:22px">💳</span>
+                <span style="font-size:22px">💳</span>
+                <span style="font-size:22px">💳</span>
+                <!-- Camaleón pixel art SVG -->
+                <div style="position:relative;display:flex;flex-direction:column;align-items:center">
+                  <span style="position:absolute;top:-14px;font-size:12px;color:{{ t.a }};animation:blink 0.8s infinite">?</span>
+                  <svg width="48" height="32" viewBox="0 0 12 8" style="image-rendering:pixelated;display:block">
+                    <rect x="2" y="1" width="7" height="4" fill="#22C55E"/>
+                    <rect x="3" y="2" width="5" height="2" fill="#EF4444" opacity="0.55" style="animation:rpgPulse 2s ease-in-out infinite"/>
+                    <rect x="9" y="1" width="2" height="2" fill="#0f0f0f"/>
+                    <rect x="10" y="1" width="1" height="1" fill="white" opacity="0.6"/>
+                    <rect x="0" y="2" width="3" height="2" fill="#22C55E"/>
+                    <rect x="0" y="3" width="2" height="1" fill="#22C55E"/>
+                    <rect x="3" y="5" width="1" height="2" fill="#22C55E"/>
+                    <rect x="6" y="5" width="1" height="2" fill="#22C55E"/>
+                    <rect x="10" y="2" width="2" height="1" fill="#22C55E"/>
+                    <rect x="3" y="1" width="2" height="1" fill="#16A34A"/>
+                    <rect x="6" y="3" width="2" height="1" fill="#16A34A"/>
+                  </svg>
+                  <span style="font-size:9px;color:{{ t.r }};font-family:'Courier New',monospace">FRAUDE</span>
+                </div>
+                <span style="font-size:22px">💳</span>
+                <span style="font-size:22px">💳</span>
+                <span style="font-size:22px">💳</span>
+              </div>
+              <span style="font-size:11px;color:{{ t.di }};font-family:'Courier New',monospace;flex-shrink:0">← 1 de cada 67</span>
+            </div>
+            <div style="border:2px solid {{ t.r }};background:{{ t.r }}0A;padding:18px;display:flex;align-items:center;gap:14px;
+              animation:bordFade 2.5s ease-in-out infinite;flex-shrink:0">
+              <span style="font-size:24px;flex-shrink:0">👾</span>
+              <div>
+                <p style="font-family:'Press Start 2P',monospace;font-size:14px;color:{{ t.r }};margin-bottom:6px">TRAMPA DETECTADA</p>
+                <p style="font-size:13px;color:{{ t.tx }};line-height:1.9">
+                  Un modelo que predice siempre "legítimo" logra 98.5% de accuracy. Es una falsa victoria.<br>
+                  El héroe elige <span style="color:{{ t.a }}">F1-Score y PR-AUC</span> — las métricas que sí importan en desbalance extremo.
+                </p>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ─ 2: LORE — EL LAGO ─ -->
+        <sc-if value="{{ is2 }}" hint-placeholder-val="{{ false }}">
+          <div style="width:100%;height:100%;display:flex;padding:36px 64px;gap:40px;overflow:hidden">
+            <div style="flex:1;display:flex;flex-direction:column;gap:16px;justify-content:center;min-width:0">
+              <div style="display:flex;align-items:center;gap:12px">
+                <span style="font-size:24px">🧙</span>
+                <h2 style="font-family:'Press Start 2P',monospace;font-size:13px;color:{{ t.a }}">EL ANALISTA ANTE EL LAGO</h2>
+              </div>
+              <div style="border-left:3px solid {{ t.a }};padding-left:16px">
+                <p style="font-size:13px;color:{{ t.tx }};line-height:2">
+                  El <span style="color:{{ t.bl }}">Lago de Datos</span>: 50,000 transacciones turbulentas.
+                  La mayoría son aliados. Pero 750 son impostores camuflados con ligeras variaciones en sus atributos subyacentes.
+                </p>
+              </div>
+              <div style="border-left:3px solid {{ t.r }};padding-left:16px">
+                <p style="font-size:13px;color:{{ t.tx }};line-height:2">
+                  No son monstruos gigantes. Son <span style="color:{{ t.r }}">clones casi idénticos</span> a los aldeanos.
+                  Las reglas manuales y los umbrales estáticos no pueden detectarlos.
+                </p>
+              </div>
+              <div style="border:1px solid {{ t.b }};background:{{ t.p }};padding:14px">
+                <p style="font-size:14px;color:{{ t.a }};font-family:'Press Start 2P',monospace;margin-bottom:8px">🎯 LA MISIÓN</p>
+                <p style="font-size:13px;color:{{ t.tx }};line-height:2">
+                  → EDA + Feature Engineering<br>
+                  → Modelos Supervisados (RF + XGBoost + SHAP)<br>
+                  → Detección de Anomalías (Isolation Forest)<br>
+                  → Segmentación de Riesgo (KMeans K=4)
+                </p>
+              </div>
+            </div>
+            <div style="width:290px;flex-shrink:0;display:flex;flex-direction:column;overflow:hidden;border:1px solid #A1380033">
+              <img src="uploads/thieves_lurking_near_kingdom_wall.jpeg" alt="Thieves lurking" style="width:100%;flex:1;object-fit:cover;min-height:190px"/><div style="padding:10px 12px;background:#3C3F52;border-top:1px solid #A1380033"><p style="font-size:8px;color:#A13800;font-family:'Press Start 2P',monospace;margin-bottom:3px">TENSION: HIGH</p><p style="font-size:11px;color:#6F7287;font-family:'Courier New',monospace;line-height:1.6">750 impostores · 49,250 aliados</p></div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ─ 3: EDA ─ -->
+        <sc-if value="{{ is3 }}" hint-placeholder-val="{{ false }}">
+          <div style="width:100%;height:100%;display:flex;flex-direction:column;padding:36px 64px;overflow:hidden">
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-shrink:0">
+              <div style="width:28px;height:28px;background:{{ t.a }}22;border:1px solid {{ t.a }}55;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">🔬</div>
+              <div>
+                <h2 style="font-family:'Press Start 2P',monospace;font-size:14px;color:{{ t.a }}">EL ANALISTA INVESTIGA</h2>
+                <p style="font-size:12px;color:{{ t.di }};margin-top:4px">EDA: antes de pelear, entender al enemigo.</p>
+              </div>
+            </div>
+            <div style="display:flex;gap:14px;flex:1;overflow:hidden;min-height:0">
+
+              <!-- ── Pixel art scientist ── -->
+              <div style="width:82px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding-top:2px">
+                <svg width="78" height="92" viewBox="0 0 39 46" style="animation:float 2.8s ease-in-out infinite;overflow:visible">
+                  <!-- Hat (COMFAMA pink) -->
+                  <rect x="11" y="0"  width="17" height="3"  fill="#FF277E"/>
+                  <rect x="8"  y="3"  width="23" height="4"  fill="#FF277E"/>
+                  <!-- Face -->
+                  <rect x="8"  y="7"  width="23" height="11" fill="#F4C97D"/>
+                  <!-- Glasses frames -->
+                  <rect x="9"  y="9"  width="6"  height="4"  fill="none" stroke="#777" strokeWidth="1"/>
+                  <rect x="24" y="9"  width="6"  height="4"  fill="none" stroke="#777" strokeWidth="1"/>
+                  <line x1="15" y1="11" x2="24" y2="11" stroke="#777" strokeWidth="1"/>
+                  <!-- Pupils -->
+                  <rect x="11" y="10" width="2"  height="2"  fill="#1a1a2e"/>
+                  <rect x="26" y="10" width="2"  height="2"  fill="#1a1a2e"/>
+                  <!-- Smile -->
+                  <rect x="14" y="14" width="11" height="2"  fill="#C07A3A"/>
+                  <!-- Lab coat body -->
+                  <rect x="6"  y="18" width="27" height="16" fill="#F5F5F5"/>
+                  <!-- Coat centre line -->
+                  <rect x="17" y="18" width="5"  height="12" fill="#E8E8E8"/>
+                  <!-- COMFAMA badge (pink) -->
+                  <rect x="8"  y="20" width="8"  height="4"  fill="#FF277E"/>
+                  <!-- Arms -->
+                  <rect x="0"  y="18" width="7"  height="13" fill="#F5F5F5"/>
+                  <rect x="32" y="18" width="7"  height="13" fill="#F5F5F5"/>
+                  <!-- Hands -->
+                  <rect x="0"  y="31" width="5"  height="5"  fill="#F4C97D"/>
+                  <rect x="34" y="31" width="5"  height="5"  fill="#F4C97D"/>
+                  <!-- Legs -->
+                  <rect x="10" y="34" width="7"  height="9"  fill="#334155"/>
+                  <rect x="22" y="34" width="7"  height="9"  fill="#334155"/>
+                  <!-- Shoes -->
+                  <rect x="8"  y="41" width="10" height="4"  fill="#1a1a2e"/>
+                  <rect x="21" y="41" width="10" height="4"  fill="#1a1a2e"/>
+                  <!-- Magic wand (right hand raised) -->
+                  <rect x="38" y="15" width="2"  height="20" fill="#7B3F00"/>
+                  <!-- Wand gem + sparkles via g wrappers (no style on SVG primitives) -->
+                  <g style="animation:rpgPulse 0.85s ease-in-out infinite"><rect x="33" y="9" width="10" height="10" fill="#FF277E"/></g>
+                  <g style="animation:rpgPulse 0.85s ease-in-out infinite 0.3s"><rect x="35" y="7" width="6" height="4" fill="#FF80B0"/></g>
+                  <g style="animation:spark1 1.6s ease-in-out infinite"><circle cx="50" cy="6" r="3" fill="#FF277E"/></g>
+                  <g style="animation:spark2 1.6s ease-in-out infinite 0.5s"><circle cx="60" cy="14" r="2" fill="#FBBF24"/></g>
+                  <g style="animation:spark3 1.6s ease-in-out infinite 1s"><circle cx="55" cy="2" r="2.5" fill="#FF80B0"/></g>
+                  <g style="animation:spark1 1.6s ease-in-out infinite 0.8s"><circle cx="65" cy="8" r="1.5" fill="#FF277E"/></g>
+                  <g style="animation:spark2 1.6s ease-in-out infinite 0.3s"><circle cx="58" cy="20" r="1.5" fill="#C084FC"/></g>
+                </svg>
+                <div style="font-size:12px;color:{{ t.a }};font-family:'Press Start 2P',monospace;text-align:center;line-height:2;margin-top:4px">
+                  DATA<br>WIZARD
+                </div>
+              </div>
+
+              <!-- ── EDA cards (fly in with delay) ── -->
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;flex:1;overflow:hidden">
+                <div style="border:1px solid {{ t.r }}55;background:{{ t.r }}07;padding:14px;display:flex;flex-direction:column;gap:7px;animation:cardFlyIn 0.45s ease 0.1s both">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span style="font-size:20px">🕐</span>
+                    <span style="font-size:14px;color:{{ t.r }};font-family:'Press Start 2P',monospace">HORA NOCTURNA</span>
+                  </div>
+                  <p style="font-size:13px;color:{{ t.tx }};line-height:1.9">Ataques entre 23h–5h. El titular duerme. Sin verificación humana posible.</p>
+                  <div style="height:3px;background:{{ t.b }}"><div style="height:100%;width:80%;background:{{ t.r }}"></div></div>
+                </div>
+                <div style="border:1px solid {{ t.a }}55;background:{{ t.a }}07;padding:14px;display:flex;flex-direction:column;gap:7px;animation:cardFlyIn 0.45s ease 0.4s both">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span style="font-size:20px">🌍</span>
+                    <span style="font-size:14px;color:{{ t.a }};font-family:'Press Start 2P',monospace">PAÍS ≠ TARJETA</span>
+                  </div>
+                  <p style="font-size:13px;color:{{ t.tx }};line-height:1.9">País de transacción ≠ país de tarjeta → tasa de fraude ×8.</p>
+                  <div style="height:3px;background:{{ t.b }}"><div style="height:100%;width:90%;background:{{ t.a }}"></div></div>
+                </div>
+                <div style="border:1px solid {{ t.pu }}55;background:{{ t.pu }}07;padding:14px;display:flex;flex-direction:column;gap:7px;animation:cardFlyIn 0.45s ease 0.7s both">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span style="font-size:20px">💳</span>
+                    <span style="font-size:14px;color:{{ t.pu }};font-family:'Press Start 2P',monospace">CATEGORÍAS CALIENTES</span>
+                  </div>
+                  <p style="font-size:13px;color:{{ t.tx }};line-height:1.9">Electrónica y Viajes: tickets grandes, difíciles de revertir.</p>
+                  <div style="height:3px;background:{{ t.b }}"><div style="height:100%;width:65%;background:{{ t.pu }}"></div></div>
+                </div>
+                <div style="border:1px solid {{ t.bl }}55;background:{{ t.bl }}07;padding:14px;display:flex;flex-direction:column;gap:7px;animation:cardFlyIn 0.45s ease 1.0s both">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span style="font-size:20px">📱</span>
+                    <span style="font-size:14px;color:{{ t.bl }};font-family:'Press Start 2P',monospace">SCORE DISPOSITIVO</span>
+                  </div>
+                  <p style="font-size:13px;color:{{ t.tx }};line-height:1.9">Score bajo = dispositivo desconocido. Los fraudes tienen score menor.</p>
+                  <div style="height:3px;background:{{ t.b }}"><div style="height:100%;width:75%;background:{{ t.bl }}"></div></div>
+                </div>
+              </div>
+            </div>
+            <div style="flex-shrink:0;margin-top:11px;display:flex;height:62px;overflow:hidden;border:1px solid {{ t.b }}"><img src="uploads/kingdom_trade_square_fraudster_h.jpeg" alt="" style="width:120px;height:100%;object-fit:cover;object-position:50% 40%;flex-shrink:0"/><div style="flex:1;background:{{ t.p }};padding:8px 14px;display:flex;align-items:center"><p style="font-size:12px;color:{{ t.tx }};line-height:1.8">⚠️ 1 de 67: Predecir siempre "legítimo" = 98.5% accuracy — El héroe elige <span style="color:{{ t.a }}">F1 y PR-AUC</span>.</p></div></div>
+          </div>
+        </sc-if>
+
+        <!-- ─ 4: INVENTARIO ─ -->
+        <sc-if value="{{ is4 }}" hint-placeholder-val="{{ false }}">
+          <div style="width:100%;height:100%;display:flex;flex-direction:column;padding:32px 64px;overflow:hidden">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-shrink:0">
+              <div style="display:flex;align-items:center;gap:12px">
+                <span style="font-size:22px">🎒</span>
+                <h2 style="font-family:'Press Start 2P',monospace;font-size:13px;color:{{ t.a }}">INVENTARIO DEL HÉROE</h2>
+              </div>
+              <div style="display:flex">
+                <button onClick="{{ setIT0 }}" style="font-size:13px;padding:7px 13px;cursor:pointer;
+                  border:1px solid {{ invWBorder }};background:{{ invWBg }};color:{{ invWColor }};
+                  font-family:'Press Start 2P',monospace;transition:all 0.15s">⚔️ ARMAS</button>
+                <button onClick="{{ setIT1 }}" style="font-size:13px;padding:7px 13px;cursor:pointer;
+                  border:1px solid {{ invRBorder }};border-left:none;background:{{ invRBg }};color:{{ invRColor }};
+                  font-family:'Press Start 2P',monospace;transition:all 0.15s">🔮 RUNAS</button>
+              </div>
+            </div>
+            <div style="flex:1;display:flex;gap:13px;overflow:hidden;min-height:0">
+              <div style="width:246px;flex-shrink:0;border:1px solid {{ t.b }};background:{{ t.p }};display:flex;flex-direction:column;overflow:hidden">
+                <div style="padding:9px 12px;border-bottom:1px solid {{ t.b }};font-size:13px;color:{{ t.di }};font-family:'Press Start 2P',monospace;flex-shrink:0">{{ invTabLabel }}</div>
+                <div style="overflow:auto;flex:1">
+                  <sc-for list="{{ iItems }}" as="item" hint-placeholder-count="3">
+                    <div onClick="{{ item.onClk }}" style="padding:12px;border-bottom:1px solid {{ t.b }};cursor:pointer;
+                      background:{{ item.activeBg }};border-left:{{ item.activeBL }};transition:all 0.15s">
+                      <div style="display:flex;align-items:center;gap:9px;margin-bottom:4px">
+                        <span style="font-size:20px">{{ item.ic }}</span>
+                        <div>
+                          <div style="font-size:13px;color:{{ item.co }};font-family:'Press Start 2P',monospace">{{ item.prefix }} {{ item.n }}</div>
+                          <div style="font-size:14px;color:{{ t.di }};margin-top:3px">{{ item.t }}</div>
+                        </div>
+                      </div>
+                      <span style="font-size:13px;color:{{ item.co }};border:1px solid {{ item.co }}44;padding:1px 5px">{{ item.ty }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="flex:1;border:1px solid {{ sel.co }};background:{{ sel.co }}08;display:flex;flex-direction:column;overflow:hidden;min-width:0">
+                <div style="padding:13px 18px;border-bottom:1px solid {{ sel.co }}44;background:{{ sel.co }}0F;
+                  display:flex;align-items:center;gap:12px;flex-shrink:0">
+                  <span style="font-size:30px">{{ sel.ic }}</span>
+                  <div>
+                    <h3 style="font-size:12px;color:{{ sel.co }};font-family:'Press Start 2P',monospace">{{ sel.n }}</h3>
+                    <p style="font-size:12px;color:{{ t.tx }};margin-top:4px">{{ sel.t }}</p>
+                  </div>
+                </div>
+                <!-- WEAPONS: stats grid -->
+                <sc-if value="{{ hasStats }}" hint-placeholder-val="{{ true }}">
+                  <div style="padding:13px 18px;border-bottom:1px solid {{ t.b }};display:grid;grid-template-columns:1fr 1fr;gap:8px;flex-shrink:0">
+                    <sc-for list="{{ selStats }}" as="st" hint-placeholder-count="4">
+                      <div style="background:{{ t.p }};padding:9px 12px">
+                        <div style="font-size:11px;color:{{ t.di }};margin-bottom:3px">{{ st.k }}</div>
+                        <div style="font-size:16px;color:{{ sel.co }};font-family:'Press Start 2P',monospace">{{ st.v }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+                <!-- RUNAS: tipo / objetivo / criticidad -->
+                <sc-if value="{{ noStats }}" hint-placeholder-val="{{ false }}">
+                  <div style="padding:16px 18px;border-bottom:1px solid {{ sel.co }}44;flex-shrink:0">
+                    <!-- Magical circle icon -->
+                    <div style="display:flex;justify-content:center;margin-bottom:14px">
+                      <div style="width:72px;height:72px;border:3px solid {{ sel.co }};border-radius:50%;
+                        display:flex;align-items:center;justify-content:center;
+                        background:{{ sel.co }}11;box-shadow:0 0 20px {{ sel.co }}44;
+                        font-size:32px;animation:glow 2s ease-in-out infinite">{{ sel.ic }}</div>
+                    </div>
+                    <!-- Tipo / Objetivo side by side -->
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+                      <div style="background:{{ t.p }};padding:10px 12px;border:1px solid {{ t.b }}">
+                        <div style="font-size:10px;color:{{ t.di }};font-family:'Press Start 2P',monospace;margin-bottom:5px">TIPO</div>
+                        <div style="font-size:11px;color:{{ sel.co }};font-family:'Press Start 2P',monospace;line-height:1.7">{{ sel.tipo }}</div>
+                      </div>
+                      <div style="background:{{ t.p }};padding:10px 12px;border:1px solid {{ t.b }}">
+                        <div style="font-size:10px;color:{{ t.di }};font-family:'Press Start 2P',monospace;margin-bottom:5px">OBJETIVO</div>
+                        <div style="font-size:11px;color:{{ sel.co }};font-family:'Press Start 2P',monospace;line-height:1.7">{{ sel.obj }}</div>
+                      </div>
+                    </div>
+                    <!-- Criticidad -->
+                    <div style="padding:9px 12px;border-left:3px solid {{ sel.co }};background:{{ sel.co }}0A">
+                      <span style="font-size:11px;color:{{ sel.co }};font-family:'Press Start 2P',monospace">{{ sel.crit }}</span>
+                    </div>
+                  </div>
+                </sc-if>
+                <div style="padding:18px;flex:1;overflow:auto">
+                  <p style="font-size:13px;color:{{ t.tx }};line-height:2">{{ sel.d }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ─ 5: RANDOM FOREST ─ -->
+        <sc-if value="{{ is5 }}" hint-placeholder-val="{{ false }}">
+          <div style="width:100%;height:100%;display:flex;flex-direction:column;padding:36px 64px;overflow:hidden">
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px;flex-shrink:0">
+              <span style="font-size:30px">🌲</span>
+              <div>
+                <h2 style="font-family:'Press Start 2P',monospace;font-size:14px;color:{{ t.g }}">RANDOM FOREST — FORJADA</h2>
+                <p style="font-size:12px;color:{{ t.di }};margin-top:4px">300 árboles de decisión en consenso democrático</p>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;flex:1;overflow:hidden">
+              <div style="display:flex;flex-direction:column;gap:17px">
+                <p style="font-size:14px;color:{{ t.g }};font-family:'Press Start 2P',monospace">📊 STATS DE BATALLA</p>
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:5px">
+                    <span style="font-size:12px;color:{{ t.tx }}">F1-Score</span><span style="font-size:12px;color:{{ t.g }}">96.08%</span>
+                  </div>
+                  <div style="height:11px;background:{{ t.b }}"><div style="height:100%;width:{{ hRfF1 }};background:{{ t.g }};transition:width 1.3s ease-out"></div></div>
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:5px">
+                    <span style="font-size:12px;color:{{ t.tx }}">Recall</span><span style="font-size:12px;color:{{ t.bl }}">98.00%</span>
+                  </div>
+                  <div style="height:11px;background:{{ t.b }}"><div style="height:100%;width:{{ hRfRc }};background:{{ t.bl }};transition:width 1.3s ease-out 0.1s"></div></div>
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:5px">
+                    <span style="font-size:12px;color:{{ t.tx }}">Precision</span><span style="font-size:12px;color:{{ t.a }}">94.23%</span>
+                  </div>
+                  <div style="height:11px;background:{{ t.b }}"><div style="height:100%;width:{{ hRfPr }};background:{{ t.a }};transition:width 1.3s ease-out 0.2s"></div></div>
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:5px">
+                    <span style="font-size:12px;color:{{ t.tx }}">AUC-ROC</span><span style="font-size:12px;color:{{ t.pu }}">99.99%</span>
+                  </div>
+                  <div style="height:11px;background:{{ t.b }}"><div style="height:100%;width:{{ hRfAu }};background:{{ t.pu }};transition:width 1.3s ease-out 0.3s"></div></div>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <p style="font-size:14px;color:{{ t.g }};font-family:'Press Start 2P',monospace">🛡️ DECISIONES TÉCNICAS</p>
+                <div style="border:1px solid {{ t.b }};background:{{ t.p }};padding:14px;flex:1">
+                  <div style="display:flex;flex-direction:column;gap:10px">
+                    <div style="display:flex;gap:8px"><span style="color:{{ t.g }};flex-shrink:0">✓</span><p style="font-size:12px;color:{{ t.tx }};line-height:1.7">Split 80/20 <span style="color:{{ t.g }}">estratificado</span> — mantiene proporción de fraude</p></div>
+                    <div style="display:flex;gap:8px"><span style="color:{{ t.g }};flex-shrink:0">✓</span><p style="font-size:12px;color:{{ t.tx }};line-height:1.7">SMOTE <span style="color:{{ t.g }}">solo en entrenamiento</span> — no contaminar evaluación</p></div>
+                    <div style="display:flex;gap:8px"><span style="color:{{ t.g }};flex-shrink:0">✓</span><p style="font-size:12px;color:{{ t.tx }};line-height:1.7">class_weight='balanced' para compensación extra</p></div>
+                    <div style="display:flex;gap:8px"><span style="color:{{ t.g }};flex-shrink:0">✓</span><p style="font-size:12px;color:{{ t.tx }};line-height:1.7">Umbral óptimo buscado sobre <span style="color:{{ t.g }}">F1</span>, no fijo en 0.5</p></div>
+                  </div>
+                </div>
+                <div style="border:1px solid {{ t.a }}44;background:{{ t.a }}07;padding:12px">
+                  <p style="font-size:12px;color:{{ t.a }};line-height:1.9">⚡ SMOTE en test = trampa estadística.<br>El héroe solo practica con sintéticos.</p>
+                </div>
+              </div>
+            </div>
+            <!-- SCENE: Random Forest — wall of detection -->
+            <div style="flex-shrink:0;margin-top:12px;height:68px;overflow:hidden;position:relative"><img src="uploads/pixel_heroes_on_ramparts.jpeg" alt="Heroes on ramparts" style="width:100%;height:100%;object-fit:cover;object-position:center 25%"/><div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(27,31,48,0.88) 0%,rgba(27,31,48,0.45) 55%,transparent 100%);display:flex;align-items:center;padding:0 16px"><div><p style="font-size:8px;color:#026B62;font-family:'Press Start 2P',monospace;margin-bottom:3px">300 ÁRBOLES · WALL OF DETECTION</p><p style="font-size:10px;color:#6F7287;font-family:'Courier New',monospace">Recall 98% · F1 96.08% · AUC 99.99%</p></div></div></div>
+          </div>
+        </sc-if>
+
+        <!-- ─ 6: XGBOOST ─ -->
+        <sc-if value="{{ is6 }}" hint-placeholder-val="{{ false }}">
+          <div style="width:100%;height:100%;display:flex;flex-direction:column;padding:36px 64px;overflow:hidden">
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;flex-shrink:0">
+              <span style="font-size:30px">⚡</span>
+              <div>
+                <h2 style="font-family:'Press Start 2P',monospace;font-size:14px;color:{{ t.pu }}">XGBOOST — UPGRADE FINAL</h2>
+                <p style="font-size:12px;color:{{ t.di }};margin-top:4px">El héroe aprende de cada error. XGBoost corrige lo que RF dejó pasar.</p>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;flex:1;overflow:hidden">
+              <div style="border:1px solid {{ t.b }};padding:18px;opacity:0.6">
+                <p style="font-size:14px;color:{{ t.di }};text-align:center;font-family:'Press Start 2P',monospace;margin-bottom:14px">🌲 RANDOM FOREST</p>
+                <div style="display:flex;flex-direction:column;gap:12px">
+                  <div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:{{ t.tx }}">F1</span><span style="font-size:12px;color:{{ t.di }}">96.08%</span></div>
+                    <div style="height:8px;background:{{ t.b }}"><div style="height:100%;width:{{ hRfF1 }};background:{{ t.di }};transition:width 1.3s ease-out"></div></div>
+                  </div>
+                  <div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:{{ t.tx }}">Recall</span><span style="font-size:12px;color:{{ t.di }}">98.00%</span></div>
+                    <div style="height:8px;background:{{ t.b }}"><div style="height:100%;width:{{ hRfRc }};background:{{ t.di }};transition:width 1.3s ease-out 0.1s"></div></div>
+                  </div>
+                  <div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:{{ t.tx }}">AUC-ROC</span><span style="font-size:12px;color:{{ t.di }}">99.99%</span></div>
+                    <div style="height:8px;background:{{ t.b }}"><div style="height:100%;width:{{ hRfAu }};background:{{ t.di }};transition:width 1.3s ease-out 0.2s"></div></div>
+                  </div>
+                </div>
+              </div>
+              <div style="border:2px solid {{ t.pu }};padding:18px;box-shadow:0 0 24px {{ t.pu }}25">
+                <p style="font-size:14px;color:{{ t.pu }};text-align:center;font-family:'Press Start 2P',monospace;margin-bottom:14px">⚡ XGBOOST ★ UPGRADE</p>
+                <div style="display:flex;flex-direction:column;gap:12px">
+                  <div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:{{ t.tx }}">F1</span><span style="font-size:12px;color:{{ t.pu }}">97.39% <span style="color:{{ t.g }}">+1.31%</span></span></div>
+                    <div style="height:8px;background:{{ t.b }}"><div style="height:100%;width:{{ hXgF1 }};background:{{ t.pu }};transition:width 1.3s ease-out"></div></div>
+                  </div>
+                  <div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:{{ t.tx }}">Recall</span><span style="font-size:12px;color:{{ t.g }}">99.33% <span style="color:{{ t.g }}">+1.33%</span></span></div>
+                    <div style="height:8px;background:{{ t.b }}"><div style="height:100%;width:{{ hXgRc }};background:{{ t.g }};transition:width 1.3s ease-out 0.1s"></div></div>
+                  </div>
+                  <div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:{{ t.tx }}">AUC-ROC</span><span style="font-size:12px;color:{{ t.a }}">100.0% PERFECTO</span></div>
+                    <div style="height:8px;background:{{ t.b }}"><div style="height:100%;width:{{ hXgAu }};background:{{ t.a }};transition:width 1.3s ease-out 0.2s"></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="flex-shrink:0;border:1px solid {{ t.b }};background:{{ t.p }};padding:11px 18px;margin-top:13px;
+              font-size:13px;color:{{ t.tx }};line-height:1.9">
+              🔮 SHAP — el héroe puede ahora <span style="color:{{ t.a }}">EXPLICAR cada decisión</span>:
+              Score bajo + horario nocturno + país ≠ tarjeta = condena automática.
+            </div>
+            <!-- SCENE: XGBoost battle + SHAP mage -->
+            <div style="flex-shrink:0;margin-top:12px;height:72px;overflow:hidden;display:flex"><div style="flex:1;position:relative;overflow:hidden"><img src="uploads/dynamic_pixel_art_scene._a.jpeg" alt="XGBoost battle" style="width:100%;height:100%;object-fit:cover;object-position:center 55%"/><div style="position:absolute;inset:0;background:linear-gradient(to right,transparent 55%,rgba(27,31,48,0.75))"></div><div style="position:absolute;bottom:6px;left:10px"><p style="font-size:7px;color:#A78BFA;font-family:'Press Start 2P',monospace">XGBOOST KNIGHTS · 1000 ESTIMADORES · RECALL 99.33%</p></div></div><div style="width:132px;flex-shrink:0;position:relative;overflow:hidden;border-left:1px solid rgba(167,139,250,0.3)"><img src="uploads/shap_mage_projects_breakdown_chart.jpeg" alt="SHAP mage" style="width:100%;height:100%;object-fit:cover"/><div style="position:absolute;inset:0;background:rgba(27,31,48,0.45);display:flex;align-items:flex-end;padding:4px 8px"><p style="font-size:6px;color:#D5FEFF;font-family:'Press Start 2P',monospace">SHAP EXPLAINER</p></div></div></div>
+          </div>
+        </sc-if>
+
+        <!-- ─ 7: ISOLATION FOREST ─ -->
+        <sc-if value="{{ is7 }}" hint-placeholder-val="{{ false }}">
+          <div style="width:100%;height:100%;display:flex;flex-direction:column;padding:36px 64px;overflow:hidden">
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;flex-shrink:0">
+              <span style="font-size:30px">🌑</span>
+              <h2 style="font-family:'Press Start 2P',monospace;font-size:14px;color:{{ t.r }}">EL BOSQUE OSCURO — SIN ETIQUETAS</h2>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;flex:1;overflow:hidden">
+              <div style="display:flex;flex-direction:column;gap:14px">
+                <div style="border:1px solid {{ t.r }}44;background:{{ t.r }}08;padding:18px">
+                  <p style="font-size:13px;color:{{ t.r }};line-height:2;font-style:italic">
+                    "Nuevos monstruos aparecen sin nombre.<br>Sin etiqueta. Nadie los ha visto antes."
+                  </p>
+                </div>
+                <p style="font-size:13px;color:{{ t.tx }};line-height:2">
+                  En producción, nuevas modalidades de fraude no tienen target=1 hasta identificación manual.
+                  El héroe necesita detectarlas <span style="color:{{ t.a }}">sin haber visto el mapa</span>.
+                </p>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <div style="border:1px solid {{ t.a }}44;background:{{ t.a }}07;padding:14px">
+                  <p style="font-size:14px;color:{{ t.a }};font-family:'Press Start 2P',monospace;margin-bottom:8px">🧮 CONTAMINATION</p>
+                  <p style="font-size:12px;color:{{ t.tx }};line-height:2">
+                    Sin tocar el target. Reglas de negocio:<br>
+                    · score_dispositivo &lt; Q1 − 1.5·IQR<br>
+                    · intentos_fallidos ≥ 3<br>
+                    → Unión = <span style="color:{{ t.a }}">2.69%</span> del dataset
+                  </p>
+                </div>
+                <div style="border:2px solid {{ t.g }};background:{{ t.g }}08;padding:14px;flex:1">
+                  <p style="font-size:14px;color:{{ t.g }};font-family:'Press Start 2P',monospace;margin-bottom:11px">🏆 RESULTADO</p>
+                  <div style="margin-bottom:8px">
+                    <div style="display:flex;justify-content:space-between;margin-bottom:5px">
+                      <span style="font-size:12px;color:{{ t.tx }}">Fraudes reales capturados</span>
+                      <span style="font-size:12px;color:{{ t.g }}">95.7%</span>
+                    </div>
+                    <div style="height:11px;background:{{ t.b }}"><div style="height:100%;width:{{ hAno }};background:{{ t.g }};transition:width 1.3s ease-out"></div></div>
+                  </div>
+                  <p style="font-size:12px;color:{{ t.tx }};line-height:1.9;margin-top:8px">1,345 anomalías detectadas.<br>Sin ver ni una sola etiqueta.</p>
+                </div>
+              </div>
+            </div>
+            <!-- SCENE: Isolation Forest — deep dark mystical -->
+            <div style="flex-shrink:0;margin-top:12px;height:68px;overflow:hidden;position:relative"><img src="uploads/deep_within_a_dark_mystical.jpeg" alt="Deep dark mystical" style="width:100%;height:100%;object-fit:cover;object-position:center 45%"/><div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(27,31,48,0.9) 0%,rgba(27,31,48,0.5) 50%,transparent 100%);display:flex;align-items:center;padding:0 16px;gap:12px"><span style="font-size:22px">🔦</span><div><p style="font-size:8px;color:#EF4444;font-family:'Press Start 2P',monospace;margin-bottom:3px">ALCHEMISTS OF THE NEURAL NEXUS</p><p style="font-size:10px;color:#6F7287;font-family:'Courier New',monospace">Sin etiqueta. Sin precedente. 95.7% recall.</p></div></div></div>
+          </div>
+        </sc-if>
+
+        <!-- ─ 8: MAPA DEL MUNDO ─ -->
+        <sc-if value="{{ is8 }}" hint-placeholder-val="{{ false }}">
+          <div style="width:100%;height:100%;display:flex;flex-direction:column;padding:32px 64px;overflow:hidden">
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-shrink:0">
+              <span style="font-size:30px">🗺️</span>
+              <div>
+                <h2 style="font-family:'Press Start 2P',monospace;font-size:13px;color:{{ t.a }}">MAPA DEL MUNDO — ARQUITECTURA</h2>
+                <p style="font-size:12px;color:{{ t.di }};margin-top:4px">Hover sobre cada zona para explorar · Click para seleccionar</p>
+              </div>
+            </div>
+            <div style="flex:1;display:flex;gap:18px;overflow:hidden;min-height:0">
+              <div style="flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden">
+                <svg width="520" height="290" viewBox="0 0 520 290" style="max-width:100%;max-height:100%">
+                  <defs>
+                    <pattern id="mapg" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                      <line x1="0" y1="0" x2="0" y2="20" stroke="{{ t.b }}" strokeWidth="0.4"/>
+                      <line x1="0" y1="0" x2="20" y2="0" stroke="{{ t.b }}" strokeWidth="0.4"/>
+                    </pattern>
+                    <marker id="arH" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+                      <path d="M0 0 L8 4 L0 8z" fill="{{ t.g }}99"/>
+                    </marker>
+                  </defs>
+                  <rect width="520" height="290" fill="url(#mapg)"/>
+                  <line x1="202" y1="88" x2="268" y2="88" stroke="{{ t.g }}55" strokeWidth="2" strokeDasharray="6,4" markerEnd="url(#arH)"><animate attributeName="stroke-dashoffset" values="0;-20" dur="1.5s" repeatCount="indefinite"/></line>
+                  <line x1="100" y1="143" x2="100" y2="186" stroke="{{ t.g }}55" strokeWidth="2" strokeDasharray="6,4" markerEnd="url(#arH)"><animate attributeName="stroke-dashoffset" values="0;-20" dur="1.5s" repeatCount="indefinite"/></line>
+                  <line x1="400" y1="143" x2="400" y2="186" stroke="{{ t.g }}55" strokeWidth="2" strokeDasharray="6,4" markerEnd="url(#arH)"><animate attributeName="stroke-dashoffset" values="0;-20" dur="1.5s" repeatCount="indefinite"/></line>
+                  <line x1="202" y1="240" x2="268" y2="240" stroke="{{ t.g }}55" strokeWidth="2" strokeDasharray="6,4" markerEnd="url(#arH)"><animate attributeName="stroke-dashoffset" values="0;-20" dur="1.5s" repeatCount="indefinite"/></line>
+                  <text x="235" y="82" fontSize="7" fill="{{ t.a }}" fontFamily="Courier New" textAnchor="middle">JSON</text>
+                  <!-- Zone 0: EDA -->
+                  <rect x="18" y="24" width="184" height="119" rx="2" fill="{{ z0.fill }}" stroke="{{ z0.stroke }}" strokeWidth="{{ z0.sw }}" style="cursor:pointer;transition:all 0.15s" onMouseEnter="{{ z0.onOver }}" onMouseLeave="{{ z0.onOut }}" onClick="{{ z0.onClk }}"/>
+                  <text x="110" y="52"  fontSize="18" textAnchor="middle" style="pointer-events:none">⛺</text>
+                  <text x="110" y="72"  fontSize="7"  fill="{{ z0.tcolor }}" fontFamily="Press Start 2P" textAnchor="middle" style="pointer-events:none">CAMP. BASE</text>
+                  <text x="110" y="86"  fontSize="7"  fill="{{ t.di }}"     fontFamily="Courier New"     textAnchor="middle" style="pointer-events:none">EDA &amp; Exploración</text>
+                  <text x="110" y="101" fontSize="7"  fill="{{ z0.tcolor }}" fontFamily="Courier New"    textAnchor="middle" style="pointer-events:none">pandas · seaborn</text>
+                  <text x="110" y="115" fontSize="7"  fill="{{ z0.tcolor }}" fontFamily="Courier New"    textAnchor="middle" style="pointer-events:none">matplotlib</text>
+                  <!-- Zone 1: Forja -->
+                  <rect x="283" y="24" width="219" height="119" rx="2" fill="{{ z1.fill }}" stroke="{{ z1.stroke }}" strokeWidth="{{ z1.sw }}" style="cursor:pointer;transition:all 0.15s" onMouseEnter="{{ z1.onOver }}" onMouseLeave="{{ z1.onOut }}" onClick="{{ z1.onClk }}"/>
+                  <text x="392" y="52"  fontSize="18" textAnchor="middle" style="pointer-events:none">⚒️</text>
+                  <text x="392" y="72"  fontSize="7"  fill="{{ z1.tcolor }}" fontFamily="Press Start 2P" textAnchor="middle" style="pointer-events:none">LA FORJA</text>
+                  <text x="392" y="86"  fontSize="7"  fill="{{ t.di }}"     fontFamily="Courier New"     textAnchor="middle" style="pointer-events:none">Modelos Supervisados</text>
+                  <text x="392" y="101" fontSize="7"  fill="{{ z1.tcolor }}" fontFamily="Courier New"    textAnchor="middle" style="pointer-events:none">scikit-learn · XGBoost</text>
+                  <text x="392" y="115" fontSize="7"  fill="{{ z1.tcolor }}" fontFamily="Courier New"    textAnchor="middle" style="pointer-events:none">SMOTE · SHAP</text>
+                  <!-- Zone 2: Bosque -->
+                  <rect x="18" y="185" width="184" height="90" rx="2" fill="{{ z2.fill }}" stroke="{{ z2.stroke }}" strokeWidth="{{ z2.sw }}" style="cursor:pointer;transition:all 0.15s" onMouseEnter="{{ z2.onOver }}" onMouseLeave="{{ z2.onOut }}" onClick="{{ z2.onClk }}"/>
+                  <text x="110" y="208" fontSize="16" textAnchor="middle" style="pointer-events:none">🌑</text>
+                  <text x="110" y="224" fontSize="7"  fill="{{ z2.tcolor }}" fontFamily="Press Start 2P" textAnchor="middle" style="pointer-events:none">BOSQUE OSCURO</text>
+                  <text x="110" y="238" fontSize="7"  fill="{{ z2.tcolor }}" fontFamily="Courier New"    textAnchor="middle" style="pointer-events:none">IsolationForest</text>
+                  <text x="110" y="250" fontSize="7"  fill="{{ t.di }}"     fontFamily="Courier New"     textAnchor="middle" style="pointer-events:none">95.7% recall s/ label</text>
+                  <!-- Zone 3: Aldea -->
+                  <rect x="283" y="185" width="219" height="90" rx="2" fill="{{ z3.fill }}" stroke="{{ z3.stroke }}" strokeWidth="{{ z3.sw }}" style="cursor:pointer;transition:all 0.15s" onMouseEnter="{{ z3.onOver }}" onMouseLeave="{{ z3.onOut }}" onClick="{{ z3.onClk }}"/>
+                  <text x="392" y="208" fontSize="16" textAnchor="middle" style="pointer-events:none">🏘️</text>
+                  <text x="392" y="224" fontSize="7"  fill="{{ z3.tcolor }}" fontFamily="Press Start 2P" textAnchor="middle" style="pointer-events:none">ALDEA DEL RIESGO</text>
+                  <text x="392" y="238" fontSize="7"  fill="{{ z3.tcolor }}" fontFamily="Courier New"    textAnchor="middle" style="pointer-events:none">KMeans K=4</text>
+                  <text x="392" y="250" fontSize="7"  fill="{{ t.di }}"     fontFamily="Courier New"     textAnchor="middle" style="pointer-events:none">C0=0.01% → C3=97.89%</text>
+                </svg>
+              </div>
+              <div style="width:216px;flex-shrink:0;border:1px solid {{ t.b }};background:{{ t.p }};display:flex;flex-direction:column;overflow:hidden">
+                <div style="height:72px;flex-shrink:0;overflow:hidden;position:relative"><img src="uploads/isometric_fortress_with_defense.jpeg" alt="Fortress of Intelligence" style="width:100%;height:100%;object-fit:cover;object-position:center 25%"/><div style="position:absolute;inset:0;background:rgba(27,31,48,0.55);display:flex;align-items:flex-end;padding:5px 8px"><p style="font-size:6px;color:#D5FEFF;font-family:'Press Start 2P',monospace;line-height:1.6">FORTRESS OF INTELLIGENCE<br>DECISION TREE GUARDS · XGBOOST KNIGHTS</p></div></div><div style="padding:9px 14px;border-bottom:1px solid {{ t.b }};font-size:13px;color:{{ t.di }};font-family:'Press Start 2P',monospace;flex-shrink:0">ZONA SELECCIONADA</div>
+                <sc-if value="{{ hasMz }}" hint-placeholder-val="{{ false }}">
+                  <div style="padding:14px;flex:1;display:flex;flex-direction:column;gap:10px;animation:slideUp 0.2s ease forwards;overflow:auto">
+                    <div style="display:flex;align-items:center;gap:8px">
+                      <span style="font-size:22px">{{ mzSel.em }}</span>
+                      <div>
+                        <div style="font-size:13px;color:{{ mzSel.co }};font-family:'Press Start 2P',monospace">{{ mzSel.l }}</div>
+                        <div style="font-size:14px;color:{{ t.di }};margin-top:3px">{{ mzSel.s }}</div>
+                      </div>
+                    </div>
+                    <p style="font-size:12px;color:{{ t.tx }};line-height:1.9">{{ mzSel.de }}</p>
+                    <div style="border-top:1px solid {{ t.b }};padding-top:8px">
+                      <p style="font-size:13px;color:{{ t.di }};margin-bottom:4px">TECH STACK</p>
+                      <p style="font-size:14px;color:{{ mzSel.co }}">{{ mzSel.tk }}</p>
+                    </div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ noMz }}" hint-placeholder-val="{{ true }}">
+                  <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:20px">
+                    <p style="font-size:12px;color:{{ t.di }};text-align:center;line-height:2">Hover sobre<br>una zona<br>para explorar</p>
+                  </div>
+                </sc-if>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ─ 9: CLUSTERING ─ -->
+        <sc-if value="{{ is9 }}" hint-placeholder-val="{{ false }}">
+          <div style="width:100%;height:100%;display:flex;flex-direction:column;padding:28px 56px;overflow:hidden">
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-shrink:0">
+              <h2 style="font-family:'Press Start 2P',monospace;font-size:13px;color:{{ t.bl }}">MAPA DEL ENEMIGO — K=4 CLUSTERS</h2>
+              <span style="font-size:11px;color:{{ t.di }};font-family:'Courier New',monospace;margin-left:auto">KMeans · elbow method · K óptimo=4</span>
+            </div>
+
+            <!-- 4 zone cards + pixel art scene column -->
+            <div style="display:flex;gap:14px;flex:1;overflow:hidden;min-height:0">
+
+              <!-- Left: 4 cluster cards stacked 2x2 -->
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;flex:1;align-content:start">
+                <sc-for list="{{ clusters }}" as="cl" hint-placeholder-count="4">
+                  <div style="border:2px solid {{ cl.co }};background:{{ cl.bg }};padding:14px 16px;position:relative;overflow:hidden;
+                    animation:zoneReveal 0.5s ease {{ cl.delay }} forwards">
+                    <sc-if value="{{ cl.pulse }}" hint-placeholder-val="{{ false }}">
+                      <div style="position:absolute;inset:0;border:2px solid {{ cl.co }};animation:rpgPulse 1.5s ease-in-out infinite;pointer-events:none"></div>
+                    </sc-if>
+                    <!-- Header row: C-label + emoji -->
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+                      <div>
+                        <p style="font-size:11px;color:{{ cl.co }};font-family:'Press Start 2P',monospace;line-height:1.6">{{ cl.l }}</p>
+                        <p style="font-size:11px;color:{{ t.di }};margin-top:2px;font-family:'Courier New',monospace">{{ cl.s }}</p>
+                      </div>
+                      <!-- Pixel art mini-character per cluster -->
+                      <svg width="28" height="32" viewBox="0 0 7 8" style="image-rendering:pixelated;flex-shrink:0">
+                        <!-- head -->
+                        <rect x="2" y="0" width="3" height="2" fill="{{ cl.co }}"/>
+                        <!-- eye -->
+                        <rect x="2" y="0" width="1" height="1" fill="{{ cl.bg }}"/>
+                        <rect x="4" y="0" width="1" height="1" fill="{{ cl.bg }}"/>
+                        <!-- body -->
+                        <rect x="1" y="2" width="5" height="3" fill="{{ cl.co }}"/>
+                        <!-- legs -->
+                        <rect x="1" y="5" width="2" height="2" fill="{{ cl.co }}"/>
+                        <rect x="4" y="5" width="2" height="2" fill="{{ cl.co }}"/>
+                      </svg>
+                    </div>
+                    <!-- Stats row -->
+                    <div style="display:flex;justify-content:space-between;align-items:center">
+                      <span style="font-size:11px;color:{{ t.di }};font-family:'Courier New',monospace">{{ cl.sz }}</span>
+                      <span style="font-size:16px;color:{{ cl.co }};font-family:'Press Start 2P',monospace">{{ cl.ta }}</span>
+                    </div>
+                    <!-- Mini HP bar -->
+                    <div style="height:3px;background:{{ t.b }};margin-top:6px">
+                      <div style="height:100%;background:{{ cl.co }};width:{{ cl.bar }}"></div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+
+              <!-- Right: Dynamic fraudster — Guard confused panel -->
+              <div style="width:150px;flex-shrink:0;display:flex;flex-direction:column;overflow:hidden;border:1px solid {{ t.b }}"><div style="flex:1;overflow:hidden;position:relative;min-height:120px"><img src="uploads/guard_confused_by_pixel_monster.jpeg" alt="Guard confused by dynamic fraudster" style="width:100%;height:100%;object-fit:cover"/></div><div style="padding:8px 10px;background:{{ t.p }};flex-shrink:0;border-top:1px solid {{ t.b }}"><p style="font-size:7px;color:{{ t.a }};font-family:'Press Start 2P',monospace;margin-bottom:3px">DYNAMIC FRAUDSTER</p><p style="font-size:9px;color:{{ t.di }};font-family:'Courier New',monospace">C3 = 97.89% fraude</p></div></div>
+
+            </div>
+
+            <!-- Footer rule -->
+            <div style="flex-shrink:0;border:1px solid {{ t.b }};background:{{ t.p }};padding:9px 16px;margin-top:10px;
+              font-size:12px;color:{{ t.tx }};line-height:1.9;display:flex;align-items:center;gap:10px">
+              <span style="color:{{ t.a }};font-family:'Press Start 2P',monospace;font-size:10px">⚙️</span>
+              Clusters reordenados por tasa de fraude en cada ejecución.
+              C0 = siempre el más seguro · C3 = siempre la <span style="color:{{ t.a }}">Guarida del Jefe Final</span>.
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ─ 10: VICTORIA ─ -->
+        <sc-if value="{{ is10 }}" hint-placeholder-val="{{ false }}">
+          <div style="width:100%;height:100%;display:flex;flex-direction:column;padding:28px 56px;overflow:hidden;position:relative;background:linear-gradient(rgba(27,31,48,0.87),rgba(27,31,48,0.87)),url('uploads/royal_treasury_pixel_art_gold.jpeg') center/cover">
+
+            <!-- COIN RAIN — 12 coins at random x positions / delays -->
+            <div style="position:absolute;inset:0;pointer-events:none;overflow:hidden">
+              <div style="position:absolute;left:5%;top:0;animation:coinFall 2.2s linear 0.1s infinite">
+                <svg width="18" height="18" viewBox="0 0 9 9" style="image-rendering:pixelated"><rect x="2" y="0" width="5" height="1" fill="#FAF798"/><rect x="1" y="1" width="7" height="7" fill="#FAF798"/><rect x="0" y="2" width="9" height="5" fill="#FAF798"/><rect x="2" y="8" width="5" height="1" fill="#FAF798"/><rect x="2" y="2" width="5" height="5" fill="#DB0061"/></svg>
+              </div>
+              <div style="position:absolute;left:18%;top:0;animation:coinFall 2.6s linear 0.7s infinite">
+                <svg width="14" height="14" viewBox="0 0 9 9" style="image-rendering:pixelated"><rect x="2" y="0" width="5" height="1" fill="#FAF798"/><rect x="1" y="1" width="7" height="7" fill="#FAF798"/><rect x="0" y="2" width="9" height="5" fill="#FAF798"/><rect x="2" y="8" width="5" height="1" fill="#FAF798"/><rect x="3" y="3" width="3" height="3" fill="#026B62"/></svg>
+              </div>
+              <div style="position:absolute;left:32%;top:0;animation:coinFall 2.0s linear 0.3s infinite">
+                <svg width="20" height="20" viewBox="0 0 9 9" style="image-rendering:pixelated"><rect x="2" y="0" width="5" height="1" fill="#FAF798"/><rect x="1" y="1" width="7" height="7" fill="#FAF798"/><rect x="0" y="2" width="9" height="5" fill="#FAF798"/><rect x="2" y="8" width="5" height="1" fill="#FAF798"/><rect x="2" y="2" width="5" height="5" fill="#DB0061"/></svg>
+              </div>
+              <div style="position:absolute;left:47%;top:0;animation:coinFall 2.4s linear 1.1s infinite">
+                <svg width="16" height="16" viewBox="0 0 9 9" style="image-rendering:pixelated"><rect x="2" y="0" width="5" height="1" fill="#FAF798"/><rect x="1" y="1" width="7" height="7" fill="#FAF798"/><rect x="0" y="2" width="9" height="5" fill="#FAF798"/><rect x="2" y="8" width="5" height="1" fill="#FAF798"/><rect x="3" y="3" width="3" height="3" fill="#A13800"/></svg>
+              </div>
+              <div style="position:absolute;left:62%;top:0;animation:coinFall 1.9s linear 0.5s infinite">
+                <svg width="18" height="18" viewBox="0 0 9 9" style="image-rendering:pixelated"><rect x="2" y="0" width="5" height="1" fill="#FAF798"/><rect x="1" y="1" width="7" height="7" fill="#FAF798"/><rect x="0" y="2" width="9" height="5" fill="#FAF798"/><rect x="2" y="8" width="5" height="1" fill="#FAF798"/><rect x="2" y="2" width="5" height="5" fill="#DB0061"/></svg>
+              </div>
+              <div style="position:absolute;left:75%;top:0;animation:coinFall 2.3s linear 0.9s infinite">
+                <svg width="14" height="14" viewBox="0 0 9 9" style="image-rendering:pixelated"><rect x="2" y="0" width="5" height="1" fill="#FAF798"/><rect x="1" y="1" width="7" height="7" fill="#FAF798"/><rect x="0" y="2" width="9" height="5" fill="#FAF798"/><rect x="2" y="8" width="5" height="1" fill="#FAF798"/><rect x="3" y="3" width="3" height="3" fill="#026B62"/></svg>
+              </div>
+              <div style="position:absolute;left:88%;top:0;animation:coinFall 2.1s linear 0.2s infinite">
+                <svg width="20" height="20" viewBox="0 0 9 9" style="image-rendering:pixelated"><rect x="2" y="0" width="5" height="1" fill="#FAF798"/><rect x="1" y="1" width="7" height="7" fill="#FAF798"/><rect x="0" y="2" width="9" height="5" fill="#FAF798"/><rect x="2" y="8" width="5" height="1" fill="#FAF798"/><rect x="2" y="2" width="5" height="5" fill="#DB0061"/></svg>
+              </div>
+              <div style="position:absolute;left:11%;top:0;animation:coinFall 2.5s linear 1.4s infinite">
+                <svg width="12" height="12" viewBox="0 0 9 9" style="image-rendering:pixelated"><rect x="2" y="0" width="5" height="1" fill="#FAF798"/><rect x="1" y="1" width="7" height="7" fill="#FAF798"/><rect x="0" y="2" width="9" height="5" fill="#FAF798"/><rect x="2" y="8" width="5" height="1" fill="#FAF798"/><rect x="3" y="3" width="3" height="3" fill="#A13800"/></svg>
+              </div>
+              <div style="position:absolute;left:55%;top:0;animation:coinFall 2.8s linear 0.6s infinite">
+                <svg width="16" height="16" viewBox="0 0 9 9" style="image-rendering:pixelated"><rect x="2" y="0" width="5" height="1" fill="#FAF798"/><rect x="1" y="1" width="7" height="7" fill="#FAF798"/><rect x="0" y="2" width="9" height="5" fill="#FAF798"/><rect x="2" y="8" width="5" height="1" fill="#FAF798"/><rect x="2" y="2" width="5" height="5" fill="#DB0061"/></svg>
+              </div>
+              <div style="position:absolute;left:40%;top:0;animation:coinFall 2.1s linear 1.8s infinite">
+                <svg width="22" height="22" viewBox="0 0 9 9" style="image-rendering:pixelated"><rect x="2" y="0" width="5" height="1" fill="#FAF798"/><rect x="1" y="1" width="7" height="7" fill="#FAF798"/><rect x="0" y="2" width="9" height="5" fill="#FAF798"/><rect x="2" y="8" width="5" height="1" fill="#FAF798"/><rect x="2" y="2" width="5" height="5" fill="#DB0061"/></svg>
+              </div>
+            </div>
+
+            <!-- Header -->
+            <div style="display:flex;align-items:center;gap:20px;margin-bottom:16px;flex-shrink:0;position:relative;z-index:1">
+              <!-- Hero celebrating pixel art -->
+              <svg width="60" height="72" viewBox="0 0 15 18" style="image-rendering:pixelated;animation:float 1.4s ease-in-out infinite">
+                <!-- Crown (COMFAMA pink) -->
+                <rect x="3"  y="0"  width="1" height="2" fill="#FAF798"/>
+                <rect x="7"  y="0"  width="1" height="3" fill="#FAF798"/>
+                <rect x="11" y="0"  width="1" height="2" fill="#FAF798"/>
+                <rect x="2"  y="2"  width="11" height="2" fill="#FAF798"/>
+                <!-- Face -->
+                <rect x="3"  y="4"  width="9" height="5" fill="#F4C9B5"/>
+                <rect x="4"  y="5"  width="2" height="2" fill="#1B1F30"/>
+                <rect x="9"  y="5"  width="2" height="2" fill="#1B1F30"/>
+                <rect x="5"  y="7"  width="5" height="1" fill="#DB0061"/>
+                <!-- Body - lab coat -->
+                <rect x="2"  y="9"  width="11" height="6" fill="#EEEEEE"/>
+                <rect x="6"  y="9"  width="3"  height="5" fill="#E0E0E0"/>
+                <!-- COMFAMA badge -->
+                <rect x="2"  y="10" width="4"  height="2" fill="#DB0061"/>
+                <!-- Arms raised in victory -->
+                <rect x="0"  y="8"  width="2"  height="5" fill="#EEEEEE"/>
+                <rect x="13" y="8"  width="2"  height="5" fill="#EEEEEE"/>
+                <rect x="0"  y="6"  width="2"  height="3" fill="#EEEEEE"/>
+                <rect x="13" y="6"  width="2"  height="3" fill="#EEEEEE"/>
+                <!-- Hands -->
+                <rect x="0"  y="5"  width="2"  height="2" fill="#F4C9B5"/>
+                <rect x="13" y="5"  width="2"  height="2" fill="#F4C9B5"/>
+                <!-- Legs -->
+                <rect x="4"  y="15" width="3"  height="3" fill="#3C3F52"/>
+                <rect x="8"  y="15" width="3"  height="3" fill="#3C3F52"/>
+              </svg>
+              <div>
+                <h2 style="font-family:'Press Start 2P',monospace;font-size:18px;color:{{ t.a }};
+                  text-shadow:0 0 30px {{ t.a }},0 0 60px {{ t.a }}44;animation:rpgPulse 2s ease-in-out infinite">JEFE FINAL DERROTADO</h2>
+                <p style="font-size:13px;color:{{ t.tx }};margin-top:6px;font-family:'Courier New',monospace">El reino está a salvo. El tesoro, protegido.</p>
+              </div>
+            </div>
+
+            <!-- Model comparison grid + savings -->
+            <div style="display:flex;gap:13px;flex:1;overflow:hidden;min-height:0;position:relative;z-index:1">
+              <!-- 3 model cards -->
+              <div style="display:flex;flex-direction:column;gap:10px;flex:1">
+                <!-- Sin modelo -->
+                <div style="border:2px solid {{ t.r }};background:{{ t.r }}11;padding:12px 16px;display:flex;align-items:center;gap:14px;animation:cardFlyIn 0.4s ease 0.05s forwards">
+                  <span style="font-size:26px">💸</span>
+                  <div style="flex:1">
+                    <p style="font-size:12px;color:{{ t.di }};font-family:'Courier New',monospace">Sin modelo — 100% fraude pasa</p>
+                    <p style="font-size:18px;color:{{ t.r }};font-family:'Press Start 2P',monospace;margin-top:4px">{{ smStr }}</p>
+                  </div>
+                  <span style="font-size:11px;color:{{ t.r }};font-family:'Press Start 2P',monospace">GAME OVER</span>
+                </div>
+                <!-- Random Forest -->
+                <div style="border:2px solid {{ t.bl }};background:{{ t.bl }}11;padding:12px 16px;display:flex;align-items:center;gap:14px;animation:cardFlyIn 0.4s ease 0.2s forwards">
+                  <span style="font-size:26px">🌲</span>
+                  <div style="flex:1">
+                    <p style="font-size:12px;color:{{ t.di }};font-family:'Courier New',monospace">Random Forest · F1 96.08% · Recall 98%</p>
+                    <p style="font-size:18px;color:{{ t.bl }};font-family:'Press Start 2P',monospace;margin-top:4px">{{ rfStr }}</p>
+                  </div>
+                  <span style="font-size:11px;color:{{ t.bl }};font-family:'Press Start 2P',monospace">NIVEL 1</span>
+                </div>
+                <!-- XGBoost -->
+                <div style="border:2px solid {{ t.g }};background:{{ t.g }}11;padding:12px 16px;display:flex;align-items:center;gap:14px;animation:cardFlyIn 0.4s ease 0.35s forwards;box-shadow:0 0 16px {{ t.g }}22">
+                  <span style="font-size:26px">⚡</span>
+                  <div style="flex:1">
+                    <p style="font-size:12px;color:{{ t.di }};font-family:'Courier New',monospace">XGBoost · F1 97.39% · Recall 99.33%</p>
+                    <p style="font-size:18px;color:{{ t.g }};font-family:'Press Start 2P',monospace;margin-top:4px">{{ xgStr }}</p>
+                  </div>
+                  <span style="font-size:11px;color:{{ t.g }};font-family:'Press Start 2P',monospace">★ BEST</span>
+                </div>
+              </div>
+
+              <!-- Big savings box -->
+              <div style="width:200px;flex-shrink:0;border:2px solid {{ t.a }};background:{{ t.a }}0F;
+                display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+                box-shadow:0 0 32px {{ t.a }}33;animation:cardFlyIn 0.4s ease 0.5s forwards;padding:16px">
+                <p style="font-size:10px;color:{{ t.a }};font-family:'Press Start 2P',monospace;text-align:center;line-height:2">💰 AHORRO<br>NETO</p>
+                <p style="font-size:26px;color:{{ t.a }};font-family:'Press Start 2P',monospace;text-align:center;
+                  text-shadow:0 0 24px {{ t.a }};line-height:1.3;animation:rpgPulse 1.8s ease-in-out infinite">{{ aStr }}</p>
+                <div style="height:1px;width:80%;background:{{ t.a }}44"></div>
+                <p style="font-size:10px;color:{{ t.di }};font-family:'Courier New',monospace;text-align:center;line-height:1.8">por período<br>evaluado</p>
+                <p style="font-size:9px;color:{{ t.a }}88;font-family:'Courier New',monospace;text-align:center">escalable a<br>producción</p>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ─ 11: RESUMEN ─ -->
+        <sc-if value="{{ is11 }}" hint-placeholder-val="{{ false }}">
+          <div style="width:100%;height:100%;display:flex;flex-direction:column;padding:28px 56px;overflow:hidden;position:relative">
+            <div style="position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0" aria-hidden="true"><img src="uploads/hall_of_heroes_leaderboards_screen.jpeg" alt="" style="width:100%;height:100%;object-fit:cover;opacity:0.07"/></div><h2 style="font-family:'Press Start 2P',monospace;font-size:13px;color:{{ t.pu }};margin-bottom:18px;flex-shrink:0;position:relative;z-index:1">ESTADÍSTICAS FINALES DE PARTIDA</h2>
+
+            <div style="display:flex;gap:20px;flex:1;overflow:hidden;min-height:0">
+
+              <!-- Left: display metric tiles (NO boring table) -->
+              <div style="flex:1;display:flex;flex-direction:column;gap:10px;overflow:hidden">
+                <p style="font-size:11px;color:{{ t.di }};font-family:'Press Start 2P',monospace;flex-shrink:0">🏆 MÉTRICAS</p>
+                <!-- Top row: RF F1 + XGB F1 -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;flex-shrink:0">
+                  <div style="border:1px solid {{ t.bl }}66;background:{{ t.bl }}0A;padding:14px 16px">
+                    <p style="font-size:10px;color:{{ t.di }};font-family:'Courier New',monospace;margin-bottom:6px">Random Forest · F1</p>
+                    <p style="font-size:28px;color:{{ t.bl }};font-family:'Press Start 2P',monospace;line-height:1">96.08<span style="font-size:14px">%</span></p>
+                  </div>
+                  <div style="border:2px solid {{ t.g }};background:{{ t.g }}0A;padding:14px 16px;box-shadow:0 0 12px {{ t.g }}1A">
+                    <p style="font-size:10px;color:{{ t.di }};font-family:'Courier New',monospace;margin-bottom:6px">XGBoost · F1 ★</p>
+                    <p style="font-size:28px;color:{{ t.g }};font-family:'Press Start 2P',monospace;line-height:1">97.39<span style="font-size:14px">%</span></p>
+                  </div>
+                </div>
+                <!-- Middle row: Recall + AUC -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;flex-shrink:0">
+                  <div style="border:1px solid {{ t.g }}66;background:{{ t.g }}07;padding:12px 16px">
+                    <p style="font-size:10px;color:{{ t.di }};font-family:'Courier New',monospace;margin-bottom:4px">XGBoost · Recall</p>
+                    <p style="font-size:24px;color:{{ t.g }};font-family:'Press Start 2P',monospace;line-height:1">99.33<span style="font-size:12px">%</span></p>
+                  </div>
+                  <div style="border:1px solid {{ t.a }}66;background:{{ t.a }}07;padding:12px 16px">
+                    <p style="font-size:10px;color:{{ t.di }};font-family:'Courier New',monospace;margin-bottom:4px">XGBoost · AUC-ROC</p>
+                    <p style="font-size:24px;color:{{ t.a }};font-family:'Press Start 2P',monospace;line-height:1">100<span style="font-size:12px">% ★</span></p>
+                  </div>
+                </div>
+                <!-- Bottom: IF Recall + Ahorro side by side -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;flex-shrink:0">
+                  <div style="border:1px solid {{ t.a }}44;background:{{ t.a }}07;padding:12px 16px">
+                    <p style="font-size:10px;color:{{ t.di }};font-family:'Courier New',monospace;margin-bottom:4px">Isolation Forest · Recall</p>
+                    <p style="font-size:22px;color:{{ t.a }};font-family:'Press Start 2P',monospace;line-height:1">95.7<span style="font-size:11px">%</span></p>
+                  </div>
+                  <div style="border:2px solid {{ t.a }};background:{{ t.a }}11;padding:12px 16px;box-shadow:0 0 16px {{ t.a }}22">
+                    <p style="font-size:10px;color:{{ t.di }};font-family:'Courier New',monospace;margin-bottom:4px">💰 Ahorro neto</p>
+                    <p style="font-size:18px;color:{{ t.a }};font-family:'Press Start 2P',monospace;line-height:1.2">{{ aStr }}</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right: decisions + stack -->
+              <div style="width:260px;flex-shrink:0;display:flex;flex-direction:column;gap:12px">
+                <p style="font-size:11px;color:{{ t.di }};font-family:'Press Start 2P',monospace">⚔️ DECISIONES CLAVE</p>
+                <div style="display:flex;flex-direction:column;gap:8px;flex:1">
+                  <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:{{ t.g }};flex-shrink:0;font-size:14px">✓</span><span style="font-size:13px;color:{{ t.tx }};line-height:1.7;font-family:'Courier New',monospace">F1 y PR-AUC, no accuracy</span></div>
+                  <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:{{ t.g }};flex-shrink:0;font-size:14px">✓</span><span style="font-size:13px;color:{{ t.tx }};line-height:1.7;font-family:'Courier New',monospace">SMOTE solo en entrenamiento</span></div>
+                  <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:{{ t.g }};flex-shrink:0;font-size:14px">✓</span><span style="font-size:13px;color:{{ t.tx }};line-height:1.7;font-family:'Courier New',monospace">Umbral óptimo sobre F1</span></div>
+                  <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:{{ t.g }};flex-shrink:0;font-size:14px">✓</span><span style="font-size:13px;color:{{ t.tx }};line-height:1.7;font-family:'Courier New',monospace">Contamination sin target=1</span></div>
+                  <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:{{ t.g }};flex-shrink:0;font-size:14px">✓</span><span style="font-size:13px;color:{{ t.tx }};line-height:1.7;font-family:'Courier New',monospace">Clusters por tasa de fraude</span></div>
+                  <div style="display:flex;gap:8px;align-items:flex-start"><span style="color:{{ t.g }};flex-shrink:0;font-size:14px">✓</span><span style="font-size:13px;color:{{ t.tx }};line-height:1.7;font-family:'Courier New',monospace">SHAP explicabilidad auditada</span></div>
+                </div>
+                <div style="border-left:3px solid {{ t.a }};padding:10px 14px;background:{{ t.p }}">
+                  <p style="font-size:12px;color:{{ t.di }};font-family:'Courier New',monospace;line-height:2">
+                    Python · pandas · scikit-learn<br>
+                    XGBoost · SHAP · imbalanced-learn<br>
+                    Next.js · Recharts · Tailwind
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ─ 12: FIN / CTA ─ -->
+        <sc-if value="{{ is12 }}" hint-placeholder-val="{{ false }}">
+          <div style="width:100%;height:100%;display:flex;flex-direction:column;padding:28px 48px 20px;gap:0;overflow:hidden">
+
+            <!-- ── TITLE ── -->
+            <div style="text-align:center;flex-shrink:0;margin-bottom:14px">
+              <h2 style="font-family:'Press Start 2P',monospace;font-size:24px;color:{{ t.a }};
+                text-shadow:0 0 30px {{ t.a }},0 0 60px {{ t.a }}44">GRACIAS POR JUGAR</h2>
+              <p style="font-size:14px;color:{{ t.di }};margin-top:7px;font-family:'Courier New',monospace">— FRAUD QUEST · COMFAMA · 2026 —</p>
+            </div>
+
+            <!-- ── MAIN SCENE + STATS ── -->
+            <div style="display:flex;gap:24px;flex:1;overflow:hidden;min-height:0;align-items:center">
+
+              <!-- BIG pixel art scene: hero casting spell → fraud trapped -->
+              <div style="flex-shrink:0;display:flex;align-items:center;gap:10px">
+
+                <!-- HERO SCIENTIST big (32×44 viewBox → 160×220px) -->
+                <svg width="160" height="200" viewBox="0 0 32 40" style="image-rendering:pixelated;animation:float 2s ease-in-out infinite">
+                  <!-- Crown -->
+                  <rect x="8"  y="0"  width="3"  height="4"  fill="#FAF798"/>
+                  <rect x="14" y="0"  width="4"  height="6"  fill="#FAF798"/>
+                  <rect x="21" y="0"  width="3"  height="4"  fill="#FAF798"/>
+                  <rect x="6"  y="4"  width="20" height="3"  fill="#FAF798"/>
+                  <!-- Crown gems -->
+                  <rect x="9"  y="2"  width="2"  height="2"  fill="#DB0061"/>
+                  <rect x="15" y="2"  width="2"  height="2"  fill="#DB0061"/>
+                  <rect x="22" y="2"  width="2"  height="2"  fill="#DB0061"/>
+                  <!-- Face -->
+                  <rect x="6"  y="7"  width="20" height="12" fill="#F4C9B5"/>
+                  <!-- Glasses frame left -->
+                  <rect x="7"  y="9"  width="7"  height="5"  fill="none" stroke="#5B5E72" stroke-width="1"/>
+                  <!-- Glasses frame right -->
+                  <rect x="18" y="9"  width="7"  height="5"  fill="none" stroke="#5B5E72" stroke-width="1"/>
+                  <!-- Bridge -->
+                  <rect x="14" y="11" width="4"  height="1"  fill="#5B5E72"/>
+                  <!-- Eyes -->
+                  <rect x="9"  y="10" width="3"  height="3"  fill="#1B1F30"/>
+                  <rect x="20" y="10" width="3"  height="3"  fill="#1B1F30"/>
+                  <!-- Eye shine -->
+                  <rect x="11" y="10" width="1"  height="1"  fill="#D5FEFF"/>
+                  <rect x="22" y="10" width="1"  height="1"  fill="#D5FEFF"/>
+                  <!-- Smile -->
+                  <rect x="11" y="16" width="10" height="2"  fill="#A13800"/>
+                  <rect x="10" y="15" width="2"  height="2"  fill="#F4C9B5"/>
+                  <rect x="20" y="15" width="2"  height="2"  fill="#F4C9B5"/>
+                  <!-- Body lab coat -->
+                  <rect x="4"  y="19" width="24" height="13" fill="#EEEEEE"/>
+                  <!-- Coat centre -->
+                  <rect x="13" y="19" width="6"  height="10" fill="#E0E0E0"/>
+                  <!-- COMFAMA badge -->
+                  <rect x="5"  y="21" width="7"  height="4"  fill="#DB0061"/>
+                  <rect x="6"  y="22" width="5"  height="2"  fill="#F8B8D1"/>
+                  <!-- Buttons -->
+                  <rect x="14" y="22" width="2"  height="2"  fill="#CFCFCF"/>
+                  <rect x="14" y="25" width="2"  height="2"  fill="#CFCFCF"/>
+                  <!-- LEFT arm raised + wand pointing right -->
+                  <rect x="0"  y="16" width="5"  height="12" fill="#EEEEEE"/>
+                  <rect x="0"  y="13" width="5"  height="6"  fill="#EEEEEE"/>
+                  <rect x="0"  y="12" width="4"  height="3"  fill="#F4C9B5"/>
+                  <!-- Wand horizontal -->
+                  <rect x="28" y="17" width="4"  height="2"  fill="#7B3F00"/>
+                  <!-- Wand tip gem (pulsing) -->
+                  <rect x="29" y="14" width="5"  height="5"  fill="#DB0061" style="animation:rpgPulse 0.7s ease-in-out infinite"/>
+                  <rect x="30" y="13" width="3"  height="2"  fill="#F8B8D1" style="animation:rpgPulse 0.7s ease-in-out infinite 0.15s"/>
+                  <!-- Right arm holding wand -->
+                  <rect x="27" y="17" width="5"  height="9"  fill="#EEEEEE"/>
+                  <rect x="28" y="15" width="4"  height="4"  fill="#F4C9B5"/>
+                  <!-- Legs -->
+                  <rect x="8"  y="32" width="6"  height="7"  fill="#3C3F52"/>
+                  <rect x="18" y="32" width="6"  height="7"  fill="#3C3F52"/>
+                  <!-- Shoes -->
+                  <rect x="6"  y="37" width="9"  height="3"  fill="#1B1F30"/>
+                  <rect x="17" y="37" width="9"  height="3"  fill="#1B1F30"/>
+                </svg>
+
+                <!-- SPELL BEAM -->
+                <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0">
+                  <div style="display:flex;gap:2px;align-items:center">
+                    <span style="font-size:20px;color:#DB0061;animation:rpgPulse 0.3s infinite">★</span>
+                    <span style="font-size:16px;color:#F8B8D1;animation:rpgPulse 0.3s infinite 0.1s">·</span>
+                    <span style="font-size:22px;color:#FAF798;animation:rpgPulse 0.3s infinite 0.2s">★</span>
+                    <span style="font-size:16px;color:#F8B8D1;animation:rpgPulse 0.3s infinite 0.3s">·</span>
+                    <span style="font-size:18px;color:#DB0061;animation:rpgPulse 0.3s infinite 0.15s">★</span>
+                  </div>
+                  <span style="font-size:10px;color:#DB0061;font-family:'Press Start 2P',monospace;animation:blink 0.6s infinite">CAPTURADO</span>
+                </div>
+
+                <!-- FRAUD TRAPPED in cage (28×32 viewBox → 112×128px) -->
+                <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+                  <svg width="112" height="120" viewBox="0 0 28 30" style="image-rendering:pixelated">
+                    <!-- Cage bars -->
+                    <rect x="0"  y="0"  width="28" height="30" fill="#1B1F30" rx="0"/>
+                    <rect x="2"  y="2"  width="24" height="26" fill="#0A0A14"/>
+                    <!-- Cage vertical bars (dark metal) -->
+                    <rect x="0"  y="0"  width="3"  height="30" fill="#3C3F52"/>
+                    <rect x="7"  y="0"  width="2"  height="30" fill="#3C3F52"/>
+                    <rect x="13" y="0"  width="2"  height="30" fill="#3C3F52"/>
+                    <rect x="19" y="0"  width="2"  height="30" fill="#3C3F52"/>
+                    <rect x="25" y="0"  width="3"  height="30" fill="#3C3F52"/>
+                    <!-- Cage horizontal bars -->
+                    <rect x="0"  y="0"  width="28" height="3"  fill="#4D4F5B"/>
+                    <rect x="0"  y="13" width="28" height="2"  fill="#4D4F5B"/>
+                    <rect x="0"  y="27" width="28" height="3"  fill="#4D4F5B"/>
+                    <!-- Lock -->
+                    <rect x="12" y="24" width="4"  height="4"  fill="#FAF798"/>
+                    <rect x="11" y="25" width="6"  height="3"  fill="#FAF798"/>
+                    <rect x="13" y="22" width="2"  height="4"  fill="none" stroke="#FAF798" stroke-width="1"/>
+                    <!-- FRAUD inside (green chameleon-blob scared) -->
+                    <!-- Body -->
+                    <rect x="5"  y="6"  width="18" height="14" fill="#22C55E"/>
+                    <rect x="4"  y="8"  width="20" height="10" fill="#22C55E"/>
+                    <!-- X eyes (defeated) -->
+                    <rect x="7"  y="8"  width="2"  height="2"  fill="#1B1F30"/>
+                    <rect x="8"  y="9"  width="2"  height="2"  fill="#1B1F30"/>
+                    <rect x="7"  y="10" width="2"  height="2"  fill="#1B1F30"/>
+                    <rect x="17" y="8"  width="2"  height="2"  fill="#1B1F30"/>
+                    <rect x="18" y="9"  width="2"  height="2"  fill="#1B1F30"/>
+                    <rect x="17" y="10" width="2"  height="2"  fill="#1B1F30"/>
+                    <!-- Sweat drop (scared) -->
+                    <rect x="22" y="7"  width="2"  height="4"  fill="#D5FEFF"/>
+                    <rect x="21" y="10" width="4"  height="2"  fill="#D5FEFF"/>
+                    <!-- Sad mouth -->
+                    <rect x="10" y="16" width="8"  height="2"  fill="#155E3A"/>
+                    <rect x="9"  y="15" width="2"  height="2"  fill="#155E3A"/>
+                    <rect x="19" y="15" width="2"  height="2"  fill="#155E3A"/>
+                    <!-- Fraud label -->
+                    <rect x="5"  y="4"  width="4"  height="2"  fill="#DB0061" style="animation:rpgPulse 1s infinite"/>
+                  </svg>
+                  <span style="font-size:10px;color:#A13800;font-family:'Press Start 2P',monospace">FRAUDE</span>
+                </div>
+              </div>
+
+              <!-- Stats + CTA right panel -->
+              <div style="flex:1;display:flex;flex-direction:column;gap:12px;overflow:hidden">
+
+                <!-- 3 display metrics -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                  <div style="border:2px solid {{ t.g }};background:{{ t.g }}0A;padding:12px 14px;box-shadow:0 0 12px {{ t.g }}1A">
+                    <p style="font-size:10px;color:{{ t.di }};font-family:'Courier New',monospace;margin-bottom:5px">XGBoost · F1</p>
+                    <p style="font-size:28px;color:{{ t.g }};font-family:'Press Start 2P',monospace;line-height:1">97.39<span style="font-size:14px">%</span></p>
+                  </div>
+                  <div style="border:1px solid {{ t.bl }}66;background:{{ t.bl }}0A;padding:12px 14px">
+                    <p style="font-size:10px;color:{{ t.di }};font-family:'Courier New',monospace;margin-bottom:5px">XGBoost · Recall</p>
+                    <p style="font-size:28px;color:{{ t.bl }};font-family:'Press Start 2P',monospace;line-height:1">99.33<span style="font-size:14px">%</span></p>
+                  </div>
+                </div>
+                <div style="border:2px solid {{ t.a }};background:{{ t.a }}11;padding:12px 14px;box-shadow:0 0 16px {{ t.a }}22">
+                  <p style="font-size:10px;color:{{ t.di }};font-family:'Courier New',monospace;margin-bottom:5px">💰 Ahorro neto · XGBoost</p>
+                  <p style="font-size:26px;color:{{ t.a }};font-family:'Press Start 2P',monospace;line-height:1;animation:rpgPulse 2s ease-in-out infinite">{{ aStr }}</p>
+                </div>
+
+                <!-- CTA: Dashboard + LinkedIn -->
+                <div style="display:flex;gap:10px;flex-wrap:wrap">
+                  <a href="#" style="font-size:12px;padding:12px 16px;border:2px solid {{ t.bl }};background:{{ t.bl }}1A;color:{{ t.bl }};
+                    font-family:'Press Start 2P',monospace;text-decoration:none;display:inline-block">[ 🖥️ DASHBOARD ]</a>
+                  <a href="https://www.linkedin.com/in/juan-felipe-c-8a010b121/" target="_blank"
+                    style="font-size:12px;padding:12px 16px;border:2px solid {{ t.a }};background:{{ t.a }}1A;color:{{ t.a }};
+                    font-family:'Press Start 2P',monospace;text-decoration:none;display:inline-block">[ 🔗 LINKEDIN ]</a>
+                </div>
+
+                <!-- Name + year -->
+                <div style="border-left:4px solid {{ t.a }};padding:10px 16px;background:{{ t.p }}">
+                  <p style="font-size:16px;color:{{ t.tx }};font-family:'Press Start 2P',monospace;line-height:1.6">JUAN CARDONA</p>
+                  <p style="font-size:12px;color:{{ t.di }};font-family:'Courier New',monospace;margin-top:4px">Data Analyst · COMFAMA · 2026</p>
+                </div>
+
+                <div style="height:52px;overflow:hidden;position:relative;border-top:1px solid rgba(2,107,98,0.3);margin-top:4px"><img src="uploads/ai_sentinel_on_tightrope.jpeg" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center 30%"/><div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(27,31,48,0.92) 0%,rgba(27,31,48,0.6) 50%,transparent 100%);display:flex;align-items:center;padding:0 14px"><div style="font-size:11px;color:{{ t.g }};font-family:'Press Start 2P',monospace;animation:blink 1.2s infinite">▶ GAME OVER — THE HERO WON</div></div></div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+      </div>
+
+      <!-- WORLD MAP STRIP -->
+      <div style="flex-shrink:0;height:86px;background:#0A1020;border-top:1px solid {{ t.b }};position:relative;overflow:hidden">
+        <!-- Static terrain SVG -->
+        <svg width="100%" height="100%" viewBox="0 0 900 86" preserveAspectRatio="xMidYMid slice"
+          style="position:absolute;inset:0;pointer-events:none">
+          <!-- Deep background -->
+          <rect width="900" height="86" fill="#080E1A"/>
+          <!-- Terrain blob 1 -->
+          <path d="M0,48 Q70,22 180,38 Q300,52 430,26 Q560,8 680,36 Q800,52 900,32 L900,86 L0,86 Z" fill="#004F45" opacity="0.55"/>
+          <!-- Terrain blob 2 -->
+          <path d="M0,62 Q140,44 320,56 Q480,68 640,44 Q790,28 900,52 L900,86 L0,86 Z" fill="#026B62" opacity="0.38"/>
+          <!-- River (blue winding) -->
+          <path d="M148,86 Q172,72 195,58 Q218,44 238,56 Q258,68 285,60 Q312,52 330,62" fill="none" stroke="#0D3B5E" stroke-width="9" opacity="0.7"/>
+          <path d="M148,86 Q172,72 195,58 Q218,44 238,56 Q258,68 285,60 Q312,52 330,62" fill="none" stroke="#1A5276" stroke-width="5" opacity="0.5"/>
+          <!-- Mountains left -->
+          <polygon points="8,58 30,20 52,58"  fill="#3C3F52"/>
+          <polygon points="36,58 54,28 72,58" fill="#4D4F5B"/>
+          <polygon points="26,58 44,32 62,58" fill="#5B5E72" opacity="0.6"/>
+          <!-- Castle top-right -->
+          <rect x="856" y="30" width="30" height="22" fill="#3C3F52"/>
+          <rect x="854" y="24" width="8"  height="10" fill="#3C3F52"/>
+          <rect x="876" y="24" width="8"  height="10" fill="#3C3F52"/>
+          <rect x="862" y="18" width="12" height="8"  fill="#DB0061"/>
+          <!-- Grid pixel overlay -->
+          <line x1="0" y1="0" x2="900" y2="0" stroke="#FFFFFF" stroke-width="0.3" opacity="0.06"/>
+          <!-- Full dashed path (all nodes) -->
+          <polyline points="{{ mapPathStr }}" fill="none" stroke="#FAF79866" stroke-width="1.5" stroke-dasharray="5,4"/>
+          <!-- Completed path (bright) -->
+          <polyline points="{{ mapDonePathStr }}" fill="none" stroke="#FAF798" stroke-width="2.5" stroke-dasharray="5,4" opacity="0.95"/>
+        </svg>
+
+        <!-- WORLD MAP label -->
+        <div style="position:absolute;top:3px;left:50%;transform:translateX(-50%);
+          font-family:'Press Start 2P',monospace;font-size:7px;color:{{ t.di }};
+          background:#080E1ACC;padding:2px 8px;pointer-events:none;white-space:nowrap">WORLD MAP</div>
+
+        <!-- Waypoint nodes -->
+        <sc-for list="{{ mapNodes }}" as="mn" hint-placeholder-count="13">
+          <div style="position:absolute;left:{{ mn.mx }};top:{{ mn.my }};transform:translate(-50%,-50%);
+            display:flex;flex-direction:column;align-items:center;cursor:pointer"
+            onClick="{{ mn.go }}">
+            <!-- Hero sprite on current node -->
+            <sc-if value="{{ mn.cur }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;top:-22px;font-size:14px;animation:float 1.4s ease-in-out infinite;pointer-events:none">🧙</div>
+            </sc-if>
+            <!-- Node circle -->
+            <div style="width:{{ mn.nd }};height:{{ mn.nd }};border-radius:50%;
+              background:{{ mn.col }};box-shadow:{{ mn.glow }};
+              border:1px solid {{ mn.col }};transition:all 0.3s"></div>
+            <!-- Label below node -->
+            <div style="font-size:5px;color:{{ mn.col }};font-family:'Press Start 2P',monospace;
+              white-space:nowrap;margin-top:2px;opacity:{{ mn.lop }}">{{ mn.lbl }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- BOTTOM NAV -->
+      <div style="flex-shrink:0;height:48px;background:{{ t.p }};border-top:1px solid {{ t.b }};
+        display:flex;align-items:center;justify-content:space-between;padding:0 20px">
+        <button onClick="{{ pv }}" style="font-size:14px;padding:6px 14px;cursor:{{ prevCursor }};
+          border:1px solid {{ t.b }};background:transparent;color:{{ prevColor }};
+          opacity:{{ prevOp }};font-family:'Press Start 2P',monospace;transition:all 0.15s">◀ ANTERIOR</button>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+          <span style="font-size:11px;color:{{ t.a }};font-family:'Press Start 2P',monospace;letter-spacing:0.05em">JUAN CARDONA</span>
+          <span style="font-size:10px;color:{{ t.di }};font-family:'Courier New',monospace">Data Analyst · COMFAMA · 2026</span>
+        </div>
+        <div style="display:flex;gap:5px">
+          <span style="font-size:12px;color:{{ t.di }};border:1px solid {{ t.b }};padding:3px 7px">← →</span>
+          <span style="font-size:12px;color:{{ t.di }};border:1px solid {{ t.b }};padding:3px 7px">SPACE</span>
+          <span style="font-size:12px;color:{{ t.di }};border:1px solid {{ t.b }};padding:3px 7px">CLICK</span>
+        </div>
+        <button onClick="{{ nx }}" style="font-size:14px;padding:6px 14px;cursor:{{ nextCursor }};
+          border:1px solid {{ t.b }};background:transparent;color:{{ nextColor }};
+          opacity:{{ nextOp }};font-family:'Press Start 2P',monospace;transition:all 0.15s">SIGUIENTE ▶</button>
+      </div>
+
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    cur: -1, dir: 'f', vis: true,
+    il: 0, theme: 'void',
+    iCur: 0, iTab: 0,
+    mh: null, hp: false, ctx: null,
+    musicOn: false,
+  };
+
+  _audioCtx = null; _musicTimer = null;
+
+  initMusic() {
+    if (this._audioCtx) return;
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      this._audioCtx = ctx;
+      const master = ctx.createGain();
+      master.gain.value = 0.10;
+      master.connect(ctx.destination);
+      this._master = master;
+      const BPM = 152, BEAT = 60 / BPM;
+      const M = [
+        [440,0.5],[494,0.25],[523,0.5],[587,0.5],[659,1],[587,0.5],[523,0.5],
+        [494,0.5],[440,0.5],[392,0.5],[440,1.5],[null,0.5],
+        [440,0.5],[523,0.5],[659,0.5],[784,1],[659,0.5],[587,0.5],
+        [523,0.5],[494,0.5],[440,0.5],[392,0.25],[440,2],[null,0.5],
+      ];
+      const B = [
+        [110,2],[98,2],[110,2],[98,2],
+        [110,2],[98,2],[110,2],[98,2],
+      ];
+      const note = (freq, dur, t, type, vol) => {
+        if (!freq || !this._audioCtx) return;
+        const o = ctx.createOscillator(), g = ctx.createGain();
+        o.type = type; o.frequency.value = freq;
+        g.gain.setValueAtTime(0, t);
+        g.gain.linearRampToValueAtTime(vol, t + 0.015);
+        g.gain.exponentialRampToValueAtTime(0.001, t + dur * BEAT * 0.88);
+        o.connect(g); g.connect(master);
+        o.start(t); o.stop(t + dur * BEAT);
+      };
+      const totalBeats = M.reduce((s,[,b])=>s+b, 0);
+      const loopDur = totalBeats * BEAT;
+      const schedule = (start) => {
+        let t = start;
+        for (const [f,b] of M) { note(f,b,t,'square',0.5); t += b*BEAT; }
+        t = start;
+        for (const [f,b] of B) { note(f,b,t,'sawtooth',0.18); t += b*BEAT; }
+        this._musicTimer = setTimeout(() => {
+          if (this._audioCtx) schedule(this._audioCtx.currentTime + 0.05);
+        }, (loopDur - 0.15) * 1000);
+      };
+      schedule(ctx.currentTime + 0.1);
+      this.setState({ musicOn: true });
+    } catch(e) { console.warn('WebAudio n/a'); }
+  }
+
+  stopMusic() {
+    clearTimeout(this._musicTimer);
+    if (this._audioCtx) { try { this._audioCtx.close(); } catch(e) {} this._audioCtx = null; }
+    this.setState({ musicOn: false });
+  }
+
+  componentWillUnmount() { this.stopMusic(); }
+
+  N = 13;
+
+  TH = {
+    // COMFAMA brand palette (CSS Peeper exact values)
+    void:     { bg:'#1B1F30', p:'#3C3F52', b:'#4D4F5B', a:'#DB0061', g:'#026B62', r:'#A13800', bl:'#004F45', pu:'#5B5E72', tx:'#CFCFCF', di:'#6F7287' },
+    // Warm editorial variant
+    plasma:   { bg:'#222222', p:'#303030', b:'#4D4F5B', a:'#DB0061', g:'#026B62', r:'#A13800', bl:'#004F45', pu:'#3C3F52', tx:'#EEEEEE', di:'#6F7287' },
+    // Bosque COMFAMA — teal oscuro profundo
+    phosphor: { bg:'#004F45', p:'#026B62', b:'#6F7287', a:'#DB0061', g:'#D5FEFF', r:'#F4C9B5', bl:'#D5FEFF', pu:'#FAF798', tx:'#E0F2F2', di:'#CFCFCF' },
+  };
+
+  D = {
+    total: 50000, fraudes: 750, tasa: 1.5,
+    rf:  { f1: 96.08, rc: 98.00, pr: 94.23, au: 99.99 },
+    xg:  { f1: 97.39, rc: 99.33, pr: 95.51, au: 100.0 },
+    ah: 55038, sm: 277215,
+    an:  { tot: 1345, rc: 95.7, co: 2.69 },
+  };
+
+  WP = [
+    { n:'RANDOM FOREST', t:'Espada de Consenso', ty:'SUPERVISADO', ic:'🌲', co:'#22C55E',
+      st:{ F1:'96.08%', RECALL:'98.00%', 'AUC-ROC':'99.99%', ÁRBOLES:'300' },
+      d:'300 árboles de decisión votan en paralelo. Reduce varianza por bagging. Confiable, interpretable y probado. El arma de cabecera del analista.' },
+    { n:'XGBOOST', t:'Cañón Perforante', ty:'SUPERVISADO', ic:'⚡', co:'#A78BFA',
+      st:{ F1:'97.39%', RECALL:'99.33%', 'AUC-ROC':'100.0%', ESTIMATORS:'1000' },
+      d:'Minimiza iterativamente el error residual. Cada árbol corrige los errores del anterior. Alta letalidad contra falsos negativos. Arma definitiva del analista.' },
+    { n:'ISOLATION FOREST', t:'Daga de Sigilo', ty:'NO SUPERVISADO', ic:'🌑', co:'#EF4444',
+      st:{ RECALL:'95.7%', 'CONTAM.':'2.69%', DETECTADAS:'1,345', ETIQUETAS:'CERO' },
+      d:'Aísla anomalías en el espacio dimensional sin etiquetas previas. 95.7% de recall sin ver ningún target=1. Para fraudes que nadie había visto aún.' },
+  ];
+
+  RU = [
+    { n:'SMOTE', t:'Runa de Balance', ic:'⚗️', co:'#F59E0B',
+      tipo:'BUFF DE BALANCE', obj:'Solo en TRAIN', crit:'⚠️ ILEGAL si se aplica en TEST',
+      d:'Sintetiza ejemplos de fraude sintéticos solo en entrenamiento para equilibrar el desbalance 1.5%/98.5%. Regla crítica: NUNCA en test — es trampa estadística.' },
+    { n:'SHAP / TreeExplainer', t:'Lente de Visión Verdadera', ic:'🔮', co:'#3B82F6',
+      tipo:'EXPLICABILIDAD', obj:'Post-entrenamiento', crit:'✓ Auditado · transparente',
+      d:'Descompone cada predicción y revela qué features delataron al enemigo. Score bajo + 3AM + país ≠ tarjeta = condena automática. Explicabilidad auditada.' },
+    { n:'IMPUTACIÓN ESTRATIFICADA', t:'Amuleto de Restauración', ic:'💎', co:'#A78BFA',
+      tipo:'RESTAURACIÓN DE DATOS', obj:'Preprocesamiento', crit:'✓ Sin data leakage',
+      d:'Restaura nulos de score_dispositivo usando mediana segmentada por pais_coincide × categoria_comercio. Previene el colapso silencioso del pipeline.' },
+    { n:'GEMA F1-SCORE', t:'Calibrador de Umbral', ic:'💚', co:'#22C55E',
+      tipo:'CALIBRACIÓN DE UMBRAL', obj:'Validación set', crit:'✓ No 0.5 por defecto',
+      d:'Accuracy = trampa cuando hay 1.5% de fraude. El héroe optimiza F1 y PR-AUC, y busca el umbral óptimo sobre validación. No 0.5 por defecto.' },
+  ];
+
+  MZ = [
+    { id:0, l:'CAMPAMENTO BASE', s:'EDA & Exploración', em:'⛺', co:'#3B82F6',
+      tk:'pandas · seaborn · matplotlib',
+      de:'El héroe analiza distribuciones, correlaciones y patrones temporales. Aquí descubrió: horario nocturno, país ≠ tarjeta, categorías de riesgo y score de dispositivo bajo.' },
+    { id:1, l:'LA FORJA', s:'Modelos Supervisados', em:'⚒️', co:'#A78BFA',
+      tk:'scikit-learn · XGBoost · SMOTE',
+      de:'Random Forest y XGBoost se forjan aquí. SMOTE equilibra el entrenamiento. Umbral óptimo calibrado sobre F1. El arsenal principal del pipeline.' },
+    { id:2, l:'EL BOSQUE OSCURO', s:'Anomalías sin etiqueta', em:'🌑', co:'#EF4444',
+      tk:'IsolationForest · SHAP · contamination',
+      de:'Territorio de detección no supervisada. Isolation Forest identifica amenazas nuevas con 95.7% recall sin ver ningún target=1. Para lo desconocido.' },
+    { id:3, l:'ALDEA DEL RIESGO', s:'Clustering K=4', em:'🏘️', co:'#F59E0B',
+      tk:'KMeans · método del codo · PCA',
+      de:'Mapa táctico de segmentación. C0=0.01% fraude hasta C3=97.89%. Prioriza investigaciones y asignación de recursos de compliance.' },
+  ];
+
+  componentDidMount() {
+    this._k = e => {
+      if ([' ','ArrowRight','Enter'].includes(e.key)) { e.preventDefault(); this.nx(); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); this.pv(); }
+    };
+    window.addEventListener('keydown', this._k);
+    this._it = [400,900,1350,1800,2250,2700,3150,3700].map((ms, i) =>
+      setTimeout(() => this.setState({ il: i + 1 }), ms)
+    );
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this._k);
+    (this._it || []).forEach(clearTimeout);
+    clearTimeout(this._hpT);
+  }
+
+  componentDidUpdate(_, ps) {
+    if (ps.cur !== this.state.cur) {
+      this.setState({ hp: false });
+      clearTimeout(this._hpT);
+      this._hpT = setTimeout(() => this.setState({ hp: true }), 280);
+    }
+  }
+
+  beep(type) {
+    try {
+      let ctx = this.state.ctx;
+      if (!ctx) {
+        ctx = new (window.AudioContext || window.webkitAudioContext)();
+        this.setState({ ctx });
+      }
+      const p = (freq, t, d) => {
+        d = d || 0.08;
+        const o = ctx.createOscillator(), g = ctx.createGain();
+        o.type = 'square'; o.frequency.value = freq;
+        o.connect(g); g.connect(ctx.destination);
+        g.gain.setValueAtTime(0.07, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + d);
+        o.start(t); o.stop(t + d + 0.02);
+      };
+      const n = ctx.currentTime;
+      if (type === 'v')      [330,415,494,660,880].forEach((f, i) => p(f, n + i * 0.12, 0.18));
+      else if (type === 's') { p(440, n, 0.1); p(660, n + 0.1, 0.14); }
+      else                   p(880, n, 0.07);
+    } catch(e) {}
+  }
+
+  go(n) {
+    const { cur } = this.state;
+    if (n < 0 || n >= this.N) return;
+    this.beep(n === 10 ? 'v' : 'n');
+    this.setState({ dir: n > cur ? 'f' : 'b', vis: false });
+    setTimeout(() => this.setState({ cur: n, vis: true }), 180);
+  }
+
+  nx() {
+    const { cur } = this.state;
+    if (cur === -1) {
+      this.beep('s');
+      this.setState({ vis: false });
+      setTimeout(() => this.setState({ cur: 0, vis: true }), 180);
+    } else {
+      this.go(cur + 1);
+    }
+  }
+
+  pv() {
+    const { cur } = this.state;
+    if (cur > 0) this.go(cur - 1);
+    else if (cur === 0) {
+      this.setState({ vis: false });
+      setTimeout(() => this.setState({ cur: -1, vis: true, il: 8 }), 180);
+    }
+  }
+
+  renderVals() {
+    const { cur, dir, vis, il, theme, iCur, iTab, mh, hp } = this.state;
+    const t = this.TH[theme];
+    const D = this.D;
+    const h = v => hp ? v + '%' : '0%';
+
+    const items = iTab === 0 ? this.WP : this.RU;
+    const safeI = Math.min(iCur, items.length - 1);
+    const sel = items[safeI];
+    const selStats = sel && sel.st ? Object.entries(sel.st).map(([k, v]) => ({ k, v })) : [];
+
+    const LABELS = ['TITLE','REINO','LORE','EDA','INVENTARIO','RAND.FOREST','XGBOOST','SIGILO','MAPA','CLUSTERS','VICTORIA','RESUMEN','FIN'];
+
+    const zones = this.MZ.map((z, i) => ({
+      ...z,
+      hov: i === mh,
+      fill: i === mh ? z.co + '22' : '#ffffff05',
+      stroke: i === mh ? z.co : t.b,
+      sw: i === mh ? '2' : '1',
+      tcolor: i === mh ? z.co : t.tx,
+      onOver: (e) => { e && e.stopPropagation(); this.setState({ mh: i }); },
+      onOut:  (e) => { e && e.stopPropagation(); this.setState({ mh: null }); },
+      onClk:  (e) => { e && e.stopPropagation(); this.setState({ mh: i }); this.beep('n'); },
+    }));
+
+    return {
+      t, theme, cur, N: this.N,
+      showI: cur === -1, showG: cur >= 0,
+      il, i1:il>=1, i2:il>=2, i3:il>=3, i4:il>=4,
+      i5:il>=5, i6:il>=6, i7:il>=7, i8:il>=8,
+      vis, dir,
+      ss: {
+        opacity: vis ? 1 : 0,
+        transform: vis ? 'translateX(0)' : dir === 'f' ? 'translateX(-20px)' : 'translateX(20px)',
+        transition: 'opacity 0.18s ease, transform 0.18s ease',
+        height: '100%', width: '100%',
+        flex: '1', overflow: 'hidden', cursor: 'pointer',
+      },
+      is0:cur===0, is1:cur===1, is2:cur===2, is3:cur===3, is4:cur===4,
+      is5:cur===5, is6:cur===6, is7:cur===7, is8:cur===8, is9:cur===9,
+      is10:cur===10, is11:cur===11, is12:cur===12,
+      hRfF1:h(D.rf.f1), hRfRc:h(D.rf.rc), hRfPr:h(D.rf.pr), hRfAu:h(D.rf.au),
+      hXgF1:h(D.xg.f1), hXgRc:h(D.xg.rc), hXgPr:h(D.xg.pr), hXgAu:h(D.xg.au),
+      hAno: h(D.an.rc),
+      D, LABELS,
+      label: LABELS[Math.max(0, cur)],
+      levelDisplay: 'LEVEL ' + Math.max(1, cur+1) + ' / ' + this.N + ' — ' + LABELS[Math.max(0, cur)],
+      dots: Array.from({ length: this.N }, (_, i) => ({
+        n: i, done: i < cur, active: i === cur,
+        col: i === cur ? t.a : i < cur ? t.g + '66' : t.di,
+        shadow: i === cur ? '0 0 8px ' + t.a : 'none',
+        tip: LABELS[i],
+        onClick: () => { if (cur >= 0) this.go(i); },
+      })),
+      thVBorder: theme==='void'     ? t.a      : t.b,
+      thVBg:     theme==='void'     ? t.a+'22' : 'transparent',
+      thVColor:  theme==='void'     ? t.a      : t.di,
+      thPBorder: theme==='plasma'   ? '#FF6B35'     : t.b,
+      thPBg:     theme==='plasma'   ? '#FF6B3522'   : 'transparent',
+      thPColor:  theme==='plasma'   ? '#FF6B35'     : t.di,
+      thFBorder: theme==='phosphor' ? t.g : t.b,
+      thFBg:     theme==='phosphor' ? t.g+'22' : 'transparent',
+      thFColor:  theme==='phosphor' ? t.g : t.di,
+      toggleMusic: (e) => { e && e.stopPropagation(); this.state.musicOn ? this.stopMusic() : this.initMusic(); },
+      musicOn: this.state.musicOn,
+      musicLabel: this.state.musicOn ? '♪ ON' : '♪ OFF',
+      musicBorder: this.state.musicOn ? t.g : t.b,
+      musicBg:     this.state.musicOn ? t.g+'22' : 'transparent',
+      musicColor:  this.state.musicOn ? t.g : t.di,
+      prevOp: cur > 0 ? '1' : '0.2',
+      nextOp: cur < this.N-1 ? '1' : '0.2',
+      prevColor:  cur > 0 ? t.tx : t.di,
+      nextColor:  cur < this.N-1 ? t.tx : t.di,
+      prevCursor: cur > 0 ? 'pointer' : 'not-allowed',
+      nextCursor: cur < this.N-1 ? 'pointer' : 'not-allowed',
+      iTab, isW: iTab===0, isR: iTab!==0,
+      invTabLabel: iTab===0 ? 'ARMAS DISPONIBLES' : 'RUNAS EQUIPADAS',
+      invWBorder: iTab===0 ? t.a      : t.b,
+      invWBg:     iTab===0 ? t.a+'22' : 'transparent',
+      invWColor:  iTab===0 ? t.a      : t.di,
+      invRBorder: iTab!==0 ? t.pu      : t.b,
+      invRBg:     iTab!==0 ? t.pu+'22' : 'transparent',
+      invRColor:  iTab!==0 ? t.pu      : t.di,
+      iItems: items.map((x, i) => ({
+        ...x,
+        active: i === safeI,
+        prefix: i === safeI ? '▶' : '·',
+        activeBg: i === safeI ? x.co + '1A' : 'transparent',
+        activeBL: i === safeI ? '3px solid ' + x.co : '3px solid transparent',
+        onClk: (e) => { e && e.stopPropagation(); this.setState({ iCur: i }); this.beep('n'); },
+      })),
+      sel, selStats,
+      hasStats: selStats.length > 0,
+      noStats:  selStats.length === 0,
+      z0: zones[0], z1: zones[1], z2: zones[2], z3: zones[3],
+      hasMz: mh !== null,
+      noMz:  mh === null,
+      mzSel: mh !== null ? this.MZ[mh] : { l:'', s:'', em:'', co: t.tx, de:'', tk:'' },
+      clusters: [
+        { l:'C0 — Zona Segura',     s:'Transacciones típicas',       ta:'0.01%',  co:'#026B62', bg:'#001A16', em:'🏡', sz:'~35 000', pulse:false, delay:'0.05s', bar:'1%'  },
+        { l:'C1 — Zona Nocturna',   s:'Electrónica internacional',   ta:'0.27%',  co:'#004F45', bg:'#001210', em:'🌙', sz:'~8 000',  pulse:false, delay:'0.2s',  bar:'2%'  },
+        { l:'C2 — Zona de Peligro', s:'Viajes y servicios',          ta:'1.88%',  co:'#A13800', bg:'#1A0800', em:'⚠️', sz:'~5 000',  pulse:false, delay:'0.35s', bar:'10%' },
+        { l:'C3 — Guarida del Jefe',s:'Credential stuffing',         ta:'97.89%', co:'#DB0061', bg:'#1A0010', em:'💀', sz:'~2 000',  pulse:true,  delay:'0.5s',  bar:'97%' },
+      ],
+      aStr:  '$' + D.ah.toLocaleString(),
+      smStr: '$' + D.sm.toLocaleString(),
+      rfStr: '$' + (D.sm - D.ah + 749).toLocaleString(),
+      xgStr: '$' + (D.sm - D.ah).toLocaleString(),
+      introBarW: il>=8 ? '100%' : il>=6 ? '70%' : il>=4 ? '45%' : '20%',
+      nx: this.nx.bind(this), pv: this.pv.bind(this), go: this.go.bind(this),
+      // Only advance when clicking slide BACKGROUND directly (not child elements)
+      nxSafe: (e) => { if (e && e.target === e.currentTarget) this.nx(); },
+      mapNodes: (() => {
+        const MX = [27,99,162,225,297,360,432,504,567,639,711,783,855];
+        const MY = [44,26,57,33,60,28,16,53,37,55,23,46,33];
+        const MXP= ['3%','11%','18%','25%','33%','40%','48%','56%','63%','71%','79%','87%','95%'];
+        const MYP= ['51%','30%','66%','38%','70%','33%','19%','62%','43%','64%','27%','53%','38%'];
+        const labels = ['TITLE','REINO','LORE','EDA','INV','RF','XGB','IF','MAPA','CLUST','WIN','STATS','FIN'];
+        const icons  = ['⚔️','🗺️','🏰','🔬','🎒','🌲','⚡','🌑','🗾','🏘️','🏆','📊','🎮'];
+        return labels.map((lbl, i) => ({
+          lbl, ic: icons[i],
+          cur:     i === cur,
+          done:    i < cur,
+          notLast: i < 12,
+          go:      (e) => { if(e) e.stopPropagation(); if (cur >= 0) this.go(i); },
+          col:     i === cur ? t.a : i < cur ? t.g : t.di,
+          border:  i === cur ? t.a : i < cur ? t.g+'44' : t.b,
+          bg:      i === cur ? t.a+'1A' : 'transparent',
+          lineCol: i < cur ? t.g+'66' : t.b,
+          mx: MXP[i], my: MYP[i],
+          nd:  i === cur ? '11px' : i < cur ? '8px' : '6px',
+          glow: i === cur ? `0 0 8px ${t.a},0 0 18px ${t.a}88` : i < cur ? `0 0 4px ${t.g}77` : 'none',
+          lop: i === cur ? '1' : i < cur ? '0.8' : '0.4',
+        }));
+      })(),
+      mapPathStr:     (() => { const MX=[27,99,162,225,297,360,432,504,567,639,711,783,855],MY=[44,26,57,33,60,28,16,53,37,55,23,46,33]; return MX.map((x,i)=>`${x},${MY[i]}`).join(' '); })(),
+      mapDonePathStr: (() => { const MX=[27,99,162,225,297,360,432,504,567,639,711,783,855],MY=[44,26,57,33,60,28,16,53,37,55,23,46,33],n=Math.max(1,cur+2); return MX.slice(0,n).map((x,i)=>`${x},${MY[i]}`).join(' '); })(),
+      setThV: () => { this.setState({ theme: 'void' });     this.beep('n'); },
+      setThP: () => { this.setState({ theme: 'plasma' });   this.beep('n'); },
+      setThF: () => { this.setState({ theme: 'phosphor' }); this.beep('n'); },
+      setIT0: (e) => { e && e.stopPropagation(); this.setState({ iTab: 0, iCur: 0 }); this.beep('n'); },
+      setIT1: (e) => { e && e.stopPropagation(); this.setState({ iTab: 1, iCur: 0 }); this.beep('n'); },
+    };
+  }
+}
+</script>
+</body>
+</html>
