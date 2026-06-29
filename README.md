@@ -1,6 +1,24 @@
 # Detección de Fraude — Challenge Técnico CONFAMA
 
-Sistema completo de detección de fraude financiero sobre un dataset de 50.000 transacciones (~1,5 % fraude). Incluye pipeline de análisis en Python y dashboard interactivo en Next.js.
+Sistema completo de detección de fraude financiero sobre 50.000 transacciones (~1,5 % fraude). Pipeline de análisis en Python + dashboard interactivo en Next.js.
+
+**[Dashboard en vivo](VERCEL_URL)** · **[Pitch interactivo](VERCEL_URL/pitch)**
+
+---
+
+## Demo
+
+### Dashboard principal
+
+![Overview](fraud-dashboard/public/screenshots/overview.png)
+
+### Modelos supervisados (RF + XGBoost + SHAP)
+
+![Modelos](fraud-dashboard/public/screenshots/models.png)
+
+### Segmentación de riesgo (KMeans K=4)
+
+![Clustering](fraud-dashboard/public/screenshots/clustering.png)
 
 ---
 
@@ -33,7 +51,7 @@ Sistema completo de detección de fraude financiero sobre un dataset de 50.000 t
 
 ---
 
-## Ejecución
+## Ejecución local
 
 ### 1. Pipeline Python
 
@@ -56,7 +74,7 @@ npm run dev
 
 Abre [http://localhost:3000](http://localhost:3000).
 
-> Los JSONs ya están incluidos en el repositorio, por lo que el dashboard funciona sin necesidad de ejecutar el pipeline primero.
+> Los JSONs ya están incluidos en el repositorio — el dashboard funciona sin ejecutar el pipeline primero.
 
 ---
 
@@ -67,18 +85,23 @@ Abre [http://localhost:3000](http://localhost:3000).
 | Preprocesamiento | Imputación estratificada | Mediana por `(pais_coincide, categoria_comercio)` para `score_dispositivo` |
 | EDA | Estadística descriptiva | Distribuciones, correlaciones, tasas de fraude por segmento |
 | Supervisado | RF + XGBoost | Split 80/20 estratificado, SMOTE solo en train, umbral óptimo por F1 |
-| Anomalías | Isolation Forest | Contaminación por regla IQR — sin uso del target en entrenamiento |
+| Anomalías | Isolation Forest | Contaminación estimada por regla IQR — sin uso del target en entrenamiento |
 | Clustering | KMeans K=4 | Clusters reordenados por tasa de fraude ascendente (C0 = menor riesgo) |
 
 ---
 
 ## Resultados principales
 
-- **Random Forest**: F1 ~0.82, AUC-ROC ~0.95 en test
-- **XGBoost**: F1 ~0.84, AUC-ROC ~0.96 en test
+| Métrica | Random Forest | XGBoost |
+|---|---|---|
+| Precisión | 94.23% | **95.51%** |
+| Recall | 98.00% | **99.33%** |
+| F1-Score | 96.08% | **97.39%** |
+| AUC-ROC | 99.99% | **100.00%** |
+
 - **Top features (SHAP)**: `score_dispositivo`, `intentos_fallidos_24h`, `monto_estandarizado`
-- **Isolation Forest**: detecta el ~74 % de fraudes reales con contaminación estimada desde datos (sin usar `target`)
-- **Clustering**: segmenta transacciones en 4 perfiles de riesgo con tasas de fraude 1 % → 48 %
+- **Isolation Forest**: detecta el ~74 % de fraudes reales sin conocer el target en entrenamiento
+- **Clustering**: 4 perfiles de riesgo con tasas de fraude 1 % → 97.89 %
 
 ---
 
