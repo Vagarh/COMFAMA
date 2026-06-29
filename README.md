@@ -2,7 +2,7 @@
 
 Sistema completo de detección de fraude financiero sobre 50.000 transacciones (~1,5 % fraude). Pipeline de análisis en Python + dashboard interactivo en Next.js.
 
-**[Dashboard en vivo](VERCEL_URL)** · **[Pitch interactivo](VERCEL_URL/pitch)**
+**[Dashboard en vivo](https://fraud-dashboard-lemon.vercel.app)** · **[Pitch interactivo](https://fraud-dashboard-lemon.vercel.app/pitch)**
 
 ---
 
