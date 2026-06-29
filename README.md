@@ -6,6 +6,12 @@ Sistema completo de detección de fraude financiero sobre 50.000 transacciones (
 
 ---
 
+## 🎮 Demo del Pitch Interactivo (RPG)
+
+![Demo del Pitch](pitch_demo.webp)
+
+---
+
 ## Demo
 
 ### Dashboard principal
