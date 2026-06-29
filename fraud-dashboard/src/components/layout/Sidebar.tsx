@@ -10,6 +10,7 @@ const nav = [
   { href: "/models", label: "Modelos Supervisados", icon: "🤖" },
   { href: "/anomalias", label: "Detección Anomalías", icon: "⚠️" },
   { href: "/clustering", label: "Segmentación Riesgo", icon: "🗂️" },
+  { href: "/pitch", label: "Pitch RPG", icon: "⚔️" },
 ];
 
 export function Sidebar() {

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import Link from 'next/link'
 
 // ─── Real pipeline data ───────────────────────────────────────────────────────
 const D = {
@@ -579,7 +580,16 @@ export default function PitchPage() {
         className="flex items-center justify-between px-6 py-3 border-b border-slate-800 flex-shrink-0"
         style={{ backgroundColor: '#0B1018' }}
       >
-        <span className="text-[9px] text-yellow-500" style={PX}>FRAUD QUEST</span>
+        <div className="flex items-center gap-4">
+          <Link
+            href="/overview"
+            className="text-[8px] text-slate-500 hover:text-white border border-slate-850 hover:border-slate-600 px-3 py-1.5 transition-all"
+            style={PX}
+          >
+            ◀ VOLVER
+          </Link>
+          <span className="text-[9px] text-yellow-500" style={PX}>FRAUD QUEST</span>
+        </div>
         <div className="flex gap-2">
           {SLIDES.map((_, i) => (
             <button
