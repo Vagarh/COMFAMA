@@ -1,0 +1,367 @@
+{
+  "resumen_dataset": {
+    "total_transacciones": 50000,
+    "total_fraudes": 750,
+    "tasa_fraude_pct": 1.5,
+    "nulos_score_dispositivo": 1172,
+    "rango_fechas": {
+      "inicio": "2026-01-01",
+      "fin": "2026-03-31"
+    }
+  },
+  "distribucion_monto": {
+    "bins_labels": [
+      "0-50",
+      "50-100",
+      "100-250",
+      "250-500",
+      "500-1000",
+      "1000+"
+    ],
+    "conteos_total": [
+      23230,
+      13339,
+      11436,
+      1752,
+      189,
+      54
+    ],
+    "conteos_fraude": [
+      87,
+      240,
+      215,
+      154,
+      54
+    ]
+  },
+  "fraude_por_hora": [
+    {
+      "hora": 0,
+      "total": 2129,
+      "fraudes": 106,
+      "tasa": 4.98
+    },
+    {
+      "hora": 1,
+      "total": 2191,
+      "fraudes": 126,
+      "tasa": 5.75
+    },
+    {
+      "hora": 2,
+      "total": 2125,
+      "fraudes": 99,
+      "tasa": 4.66
+    },
+    {
+      "hora": 3,
+      "total": 2144,
+      "fraudes": 123,
+      "tasa": 5.74
+    },
+    {
+      "hora": 4,
+      "total": 2152,
+      "fraudes": 112,
+      "tasa": 5.2
+    },
+    {
+      "hora": 5,
+      "total": 2152,
+      "fraudes": 92,
+      "tasa": 4.28
+    },
+    {
+      "hora": 6,
+      "total": 2003,
+      "fraudes": 0,
+      "tasa": 0.0
+    },
+    {
+      "hora": 7,
+      "total": 2046,
+      "fraudes": 0,
+      "tasa": 0.0
+    },
+    {
+      "hora": 8,
+      "total": 2014,
+      "fraudes": 0,
+      "tasa": 0.0
+    },
+    {
+      "hora": 9,
+      "total": 2102,
+      "fraudes": 0,
+      "tasa": 0.0
+    },
+    {
+      "hora": 10,
+      "total": 1951,
+      "fraudes": 0,
+      "tasa": 0.0
+    },
+    {
+      "hora": 11,
+      "total": 2046,
+      "fraudes": 0,
+      "tasa": 0.0
+    },
+    {
+      "hora": 12,
+      "total": 2073,
+      "fraudes": 0,
+      "tasa": 0.0
+    },
+    {
+      "hora": 13,
+      "total": 2019,
+      "fraudes": 0,
+      "tasa": 0.0
+    },
+    {
+      "hora": 14,
+      "total": 2070,
+      "fraudes": 0,
+      "tasa": 0.0
+    },
+    {
+      "hora": 15,
+      "total": 2076,
+      "fraudes": 0,
+      "tasa": 0.0
+    },
+    {
+      "hora": 16,
+      "total": 2052,
+      "fraudes": 0,
+      "tasa": 0.0
+    },
+    {
+      "hora": 17,
+      "total": 2146,
+      "fraudes": 0,
+      "tasa": 0.0
+    },
+    {
+      "hora": 18,
+      "total": 2007,
+      "fraudes": 0,
+      "tasa": 0.0
+    },
+    {
+      "hora": 19,
+      "total": 2069,
+      "fraudes": 0,
+      "tasa": 0.0
+    },
+    {
+      "hora": 20,
+      "total": 2049,
+      "fraudes": 0,
+      "tasa": 0.0
+    },
+    {
+      "hora": 21,
+      "total": 2102,
+      "fraudes": 0,
+      "tasa": 0.0
+    },
+    {
+      "hora": 22,
+      "total": 2140,
+      "fraudes": 0,
+      "tasa": 0.0
+    },
+    {
+      "hora": 23,
+      "total": 2142,
+      "fraudes": 92,
+      "tasa": 4.3
+    }
+  ],
+  "fraude_por_categoria": [
+    {
+      "categoria": "Electrónica",
+      "total": 7744,
+      "fraudes": 364,
+      "tasa": 4.7
+    },
+    {
+      "categoria": "Viajes",
+      "total": 6078,
+      "fraudes": 227,
+      "tasa": 3.73
+    },
+    {
+      "categoria": "Retail",
+      "total": 19888,
+      "fraudes": 159,
+      "tasa": 0.8
+    },
+    {
+      "categoria": "Entretenimiento",
+      "total": 4003,
+      "fraudes": 0,
+      "tasa": 0.0
+    },
+    {
+      "categoria": "Servicios",
+      "total": 12287,
+      "fraudes": 0,
+      "tasa": 0.0
+    }
+  ],
+  "fraude_por_tipo_tarjeta": [
+    {
+      "tipo": "Crédito",
+      "total": 32497,
+      "fraudes": 480,
+      "tasa": 1.48
+    },
+    {
+      "tipo": "Débito",
+      "total": 17503,
+      "fraudes": 270,
+      "tasa": 1.54
+    }
+  ],
+  "fraude_por_pais_coincide": [
+    {
+      "coincide": false,
+      "total": 3994,
+      "fraudes": 603,
+      "tasa": 15.1
+    },
+    {
+      "coincide": true,
+      "total": 46006,
+      "fraudes": 147,
+      "tasa": 0.32
+    }
+  ],
+  "correlacion_features": {
+    "nombres": [
+      "hora",
+      "monto_log",
+      "score_dispositivo",
+      "intentos_fallidos_24h",
+      "pais_coincide",
+      "es_hora_riesgo",
+      "target"
+    ],
+    "matriz": [
+      [
+        1.0,
+        -0.03,
+        0.063,
+        -0.05,
+        0.04,
+        -0.568,
+        -0.115
+      ],
+      [
+        -0.03,
+        1.0,
+        -0.117,
+        0.106,
+        -0.072,
+        0.038,
+        0.219
+      ],
+      [
+        0.063,
+        -0.117,
+        1.0,
+        -0.249,
+        0.18,
+        -0.103,
+        -0.525
+      ],
+      [
+        -0.05,
+        0.106,
+        -0.249,
+        1.0,
+        -0.156,
+        0.084,
+        0.469
+      ],
+      [
+        0.04,
+        -0.072,
+        0.18,
+        -0.156,
+        1.0,
+        -0.062,
+        -0.33
+      ],
+      [
+        -0.568,
+        0.038,
+        -0.103,
+        0.084,
+        -0.062,
+        1.0,
+        0.188
+      ],
+      [
+        -0.115,
+        0.219,
+        -0.525,
+        0.469,
+        -0.33,
+        0.188,
+        1.0
+      ]
+    ]
+  },
+  "score_dispositivo_stats": {
+    "min": 0.0,
+    "max": 100.0,
+    "media": 84.26,
+    "mediana": 84.9
+  },
+  "intentos_fallidos_distribucion": [
+    {
+      "intentos": 0,
+      "conteo": 41840
+    },
+    {
+      "intentos": 1,
+      "conteo": 5022
+    },
+    {
+      "intentos": 2,
+      "conteo": 2216
+    },
+    {
+      "intentos": 3,
+      "conteo": 777
+    },
+    {
+      "intentos": 4,
+      "conteo": 145
+    }
+  ],
+  "imputacion_report": {
+    "metodo": "mediana_estratificada",
+    "grupos_usados": [
+      "pais_coincide",
+      "categoria_comercio"
+    ],
+    "nulos_imputados": 1172,
+    "medianas_por_grupo": {
+      "0_Electrónica": 80.0,
+      "0_Entretenimiento": 84.0,
+      "0_Retail": 84.0,
+      "0_Servicios": 85.0,
+      "0_Viajes": 80.7,
+      "1_Electrónica": 84.9,
+      "1_Entretenimiento": 85.0,
+      "1_Retail": 84.9,
+      "1_Servicios": 85.1,
+      "1_Viajes": 85.0
+    }
+  }
+}

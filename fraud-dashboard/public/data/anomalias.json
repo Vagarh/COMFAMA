@@ -1,0 +1,279 @@
+{
+  "configuracion": {
+    "modelo": "IsolationForest",
+    "contamination": 0.0269,
+    "justificacion_matematica": "Fracción de registros con score_dispositivo < Q1-1.5*IQR (63.85) O intentos_fallidos >= 3, calculado sin usar target: 1344/50000 = 0.0269",
+    "n_estimators": 200,
+    "features_usadas": [
+      "monto_log",
+      "score_dispositivo",
+      "intentos_fallidos_24h",
+      "hora",
+      "pais_coincide",
+      "es_hora_riesgo"
+    ]
+  },
+  "resultados": {
+    "total_anomalias_detectadas": 1345,
+    "distribucion_scores": {
+      "bins_left": [
+        -0.15,
+        -0.13,
+        -0.1099,
+        -0.0899,
+        -0.0698,
+        -0.0498,
+        -0.0298,
+        -0.0097,
+        0.0103,
+        0.0304,
+        0.0504,
+        0.0705,
+        0.0905,
+        0.1105,
+        0.1306,
+        0.1506,
+        0.1707,
+        0.1907,
+        0.2108,
+        0.2308
+      ],
+      "conteos": [
+        19,
+        118,
+        204,
+        181,
+        127,
+        143,
+        309,
+        609,
+        984,
+        1408,
+        1753,
+        2048,
+        2339,
+        2908,
+        3317,
+        5168,
+        6335,
+        7545,
+        7963,
+        6522
+      ],
+      "threshold_anomalia": -0.0
+    },
+    "top_anomalias": [
+      {
+        "id_transaccion": "TX_040010",
+        "anomaly_score": -0.15,
+        "monto": 879.47,
+        "categoria_comercio": "Retail",
+        "hora": 23,
+        "pais_coincide": 0,
+        "score_dispositivo": 12.3,
+        "intentos_fallidos_24h": 4
+      },
+      {
+        "id_transaccion": "TX_038590",
+        "anomaly_score": -0.1455,
+        "monto": 1080.57,
+        "categoria_comercio": "Viajes",
+        "hora": 23,
+        "pais_coincide": 0,
+        "score_dispositivo": 27.4,
+        "intentos_fallidos_24h": 4
+      },
+      {
+        "id_transaccion": "TX_034422",
+        "anomaly_score": -0.1437,
+        "monto": 925.36,
+        "categoria_comercio": "Electrónica",
+        "hora": 23,
+        "pais_coincide": 0,
+        "score_dispositivo": 36.0,
+        "intentos_fallidos_24h": 4
+      },
+      {
+        "id_transaccion": "TX_005965",
+        "anomaly_score": -0.1382,
+        "monto": 531.74,
+        "categoria_comercio": "Viajes",
+        "hora": 23,
+        "pais_coincide": 0,
+        "score_dispositivo": 14.5,
+        "intentos_fallidos_24h": 3
+      },
+      {
+        "id_transaccion": "TX_044971",
+        "anomaly_score": -0.1379,
+        "monto": 843.73,
+        "categoria_comercio": "Viajes",
+        "hora": 23,
+        "pais_coincide": 0,
+        "score_dispositivo": 23.9,
+        "intentos_fallidos_24h": 3
+      },
+      {
+        "id_transaccion": "TX_014778",
+        "anomaly_score": -0.1364,
+        "monto": 780.74,
+        "categoria_comercio": "Electrónica",
+        "hora": 23,
+        "pais_coincide": 0,
+        "score_dispositivo": 28.6,
+        "intentos_fallidos_24h": 3
+      },
+      {
+        "id_transaccion": "TX_017618",
+        "anomaly_score": -0.1351,
+        "monto": 977.47,
+        "categoria_comercio": "Electrónica",
+        "hora": 1,
+        "pais_coincide": 0,
+        "score_dispositivo": 19.2,
+        "intentos_fallidos_24h": 4
+      },
+      {
+        "id_transaccion": "TX_029390",
+        "anomaly_score": -0.1333,
+        "monto": 813.41,
+        "categoria_comercio": "Viajes",
+        "hora": 2,
+        "pais_coincide": 0,
+        "score_dispositivo": 3.0,
+        "intentos_fallidos_24h": 4
+      },
+      {
+        "id_transaccion": "TX_009307",
+        "anomaly_score": -0.1315,
+        "monto": 755.39,
+        "categoria_comercio": "Electrónica",
+        "hora": 23,
+        "pais_coincide": 0,
+        "score_dispositivo": 48.3,
+        "intentos_fallidos_24h": 3
+      },
+      {
+        "id_transaccion": "TX_018005",
+        "anomaly_score": -0.1312,
+        "monto": 682.86,
+        "categoria_comercio": "Retail",
+        "hora": 23,
+        "pais_coincide": 0,
+        "score_dispositivo": 13.1,
+        "intentos_fallidos_24h": 2
+      },
+      {
+        "id_transaccion": "TX_030300",
+        "anomaly_score": -0.1312,
+        "monto": 810.82,
+        "categoria_comercio": "Electrónica",
+        "hora": 23,
+        "pais_coincide": 0,
+        "score_dispositivo": 17.7,
+        "intentos_fallidos_24h": 2
+      },
+      {
+        "id_transaccion": "TX_010348",
+        "anomaly_score": -0.131,
+        "monto": 1259.55,
+        "categoria_comercio": "Viajes",
+        "hora": 0,
+        "pais_coincide": 0,
+        "score_dispositivo": 47.1,
+        "intentos_fallidos_24h": 4
+      },
+      {
+        "id_transaccion": "TX_014335",
+        "anomaly_score": -0.1309,
+        "monto": 557.61,
+        "categoria_comercio": "Viajes",
+        "hora": 23,
+        "pais_coincide": 0,
+        "score_dispositivo": 40.0,
+        "intentos_fallidos_24h": 3
+      },
+      {
+        "id_transaccion": "TX_012393",
+        "anomaly_score": -0.1308,
+        "monto": 1553.03,
+        "categoria_comercio": "Electrónica",
+        "hora": 5,
+        "pais_coincide": 0,
+        "score_dispositivo": 13.7,
+        "intentos_fallidos_24h": 4
+      },
+      {
+        "id_transaccion": "TX_038127",
+        "anomaly_score": -0.1307,
+        "monto": 1428.94,
+        "categoria_comercio": "Retail",
+        "hora": 0,
+        "pais_coincide": 0,
+        "score_dispositivo": 50.4,
+        "intentos_fallidos_24h": 4
+      },
+      {
+        "id_transaccion": "TX_001803",
+        "anomaly_score": -0.1307,
+        "monto": 432.25,
+        "categoria_comercio": "Electrónica",
+        "hora": 0,
+        "pais_coincide": 0,
+        "score_dispositivo": 12.3,
+        "intentos_fallidos_24h": 4
+      },
+      {
+        "id_transaccion": "TX_022953",
+        "anomaly_score": -0.1307,
+        "monto": 445.05,
+        "categoria_comercio": "Retail",
+        "hora": 23,
+        "pais_coincide": 0,
+        "score_dispositivo": 31.1,
+        "intentos_fallidos_24h": 3
+      },
+      {
+        "id_transaccion": "TX_042202",
+        "anomaly_score": -0.1304,
+        "monto": 637.79,
+        "categoria_comercio": "Electrónica",
+        "hora": 23,
+        "pais_coincide": 0,
+        "score_dispositivo": 14.2,
+        "intentos_fallidos_24h": 2
+      },
+      {
+        "id_transaccion": "TX_039023",
+        "anomaly_score": -0.1302,
+        "monto": 672.85,
+        "categoria_comercio": "Viajes",
+        "hora": 0,
+        "pais_coincide": 0,
+        "score_dispositivo": 39.5,
+        "intentos_fallidos_24h": 4
+      },
+      {
+        "id_transaccion": "TX_004839",
+        "anomaly_score": -0.1294,
+        "monto": 235.91,
+        "categoria_comercio": "Viajes",
+        "hora": 23,
+        "pais_coincide": 0,
+        "score_dispositivo": 26.4,
+        "intentos_fallidos_24h": 4
+      }
+    ],
+    "validacion_vs_target": {
+      "nota": "Solo para evaluación interna del reto. No disponible en producción real.",
+      "precision_anomalia_vs_fraude": 0.534,
+      "recall_anomalia_vs_fraude": 0.957
+    },
+    "patrones_anomalias": {
+      "hora_promedio": 8.5,
+      "monto_promedio": 263.47,
+      "pct_pais_no_coincide": 79.2,
+      "pct_categorias_alto_riesgo": 52.2
+    }
+  }
+}
