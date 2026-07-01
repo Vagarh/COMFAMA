@@ -46,6 +46,8 @@ body{overflow:hidden}
   <!-- ══════════════════ INTRO ══════════════════ -->
   <sc-if value="{{ showI }}" hint-placeholder-val="{{ false }}">
     <div style="position:relative;z-index:10;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer" onClick="{{ nx }}">
+      <!-- Animated pixel art background for intro -->
+      <div style="position:absolute;inset:0;z-index:0;overflow:hidden"><img src="uploads/intro_overworld.gif" alt="" style="width:100%;height:100%;object-fit:cover;opacity:0.25"/></div>
       <div style="width:100%;max-width:700px;padding:48px 48px 32px">
         <sc-if value="{{ i1 }}" hint-placeholder-val="{{ false }}">
           <div style="font-size:20px;color:{{ t.g }};margin-bottom:10px;animation:lineIn 0.3s ease forwards">
@@ -162,14 +164,16 @@ body{overflow:hidden}
 
         <!-- ─ 0: TITLE ─ -->
         <sc-if value="{{ is0 }}" hint-placeholder-val="{{ false }}">
-          <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:40px;background:linear-gradient(rgba(27,31,48,0.84),rgba(27,31,48,0.84)),url('uploads/Fantasy_kingdom_overworld_map_202606291028.jpeg') center/cover">
-            <div style="font-size:52px;animation:float 3s ease-in-out infinite">⚔️</div>
-            <h1 style="font-family:'Press Start 2P',monospace;font-size:30px;color:{{ t.a }};
+          <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:40px;position:relative;overflow:hidden">
+            <!-- Animated overworld GIF background -->
+            <div style="position:absolute;inset:0;z-index:0"><img src="uploads/intro_overworld.gif" alt="Overworld pixel art" style="width:100%;height:100%;object-fit:cover"/><div style="position:absolute;inset:0;background:rgba(27,31,48,0.72)"></div></div>
+            <div style="font-size:52px;animation:float 3s ease-in-out infinite;position:relative;z-index:1">⚔️</div>
+            <h1 style="font-family:'Press Start 2P',monospace;font-size:30px;color:{{ t.a }};position:relative;z-index:1;
               text-shadow:0 0 40px {{ t.a }},0 0 80px {{ t.a }}44;animation:glitch 10s infinite 4s;text-align:center;line-height:1.5">FRAUD QUEST</h1>
-            <p style="font-size:14px;color:{{ t.tx }};text-align:center;line-height:2">
+            <p style="font-size:14px;color:{{ t.tx }};text-align:center;line-height:2;position:relative;z-index:1">
               La historia de cómo un analista enfrentó<br>750 monstruos entre 50,000 transacciones
             </p>
-            <div style="display:flex;align-items:center;gap:44px">
+            <div style="display:flex;align-items:center;gap:44px;position:relative;z-index:1">
               <div style="text-align:center">
                 <div style="font-size:44px;animation:float 2.5s ease-in-out infinite">🧙</div>
                 <div style="font-size:14px;color:{{ t.tx }};font-family:'Press Start 2P',monospace;margin-top:6px">EL ANALISTA</div>
@@ -182,7 +186,7 @@ body{overflow:hidden}
                 <div style="font-size:12px;color:{{ t.r }};margin-top:3px">×750 instancias</div>
               </div>
             </div>
-            <div style="font-family:'Press Start 2P',monospace;font-size:12px;color:{{ t.g }};animation:blink 1.1s infinite">▶ PRESS START</div>
+            <div style="font-family:'Press Start 2P',monospace;font-size:12px;color:{{ t.g }};animation:blink 1.1s infinite;position:relative;z-index:1">▶ PRESS START</div>
           </div>
         </sc-if>
 
@@ -803,7 +807,9 @@ body{overflow:hidden}
 
         <!-- ─ 10: VICTORIA ─ -->
         <sc-if value="{{ is10 }}" hint-placeholder-val="{{ false }}">
-          <div style="width:100%;height:100%;display:flex;flex-direction:column;padding:28px 56px;overflow:hidden;position:relative;background:linear-gradient(rgba(27,31,48,0.65),rgba(27,31,48,0.65)),url('uploads/Royal_treasury_pixel_art_gold_202606291028.jpeg') center/cover">
+          <div style="width:100%;height:100%;display:flex;flex-direction:column;padding:28px 56px;overflow:hidden;position:relative">
+            <!-- Animated hallazgo GIF background -->
+            <div style="position:absolute;inset:0;z-index:0"><img src="uploads/hallazgo_zona_c3.gif" alt="Hallazgo ZONA C3" style="width:100%;height:100%;object-fit:cover"/><div style="position:absolute;inset:0;background:rgba(27,31,48,0.7)"></div></div>
 
             <!-- COIN RAIN — 12 coins at random x positions / delays -->
             <div style="position:absolute;inset:0;pointer-events:none;overflow:hidden">
@@ -1160,7 +1166,7 @@ body{overflow:hidden}
                   <p style="font-size:12px;color:{{ t.di }};font-family:'Courier New',monospace;margin-top:4px">Data Analyst · COMFAMA · 2026</p>
                 </div>
 
-                <div style="height:120px;overflow:hidden;position:relative;border-top:1px solid rgba(2,107,98,0.3);margin-top:4px"><img src="uploads/AI_Sentinel_on_tightrope_202606291028.jpeg" alt="AI Sentinel" style="width:100%;height:100%;object-fit:cover;object-position:center 30%"/><div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(27,31,48,0.8) 0%,rgba(27,31,48,0.4) 50%,transparent 100%);display:flex;align-items:center;padding:0 18px"><div style="font-size:12px;color:{{ t.g }};font-family:'Press Start 2P',monospace;animation:blink 1.2s infinite">▶ GAME OVER — THE HERO WON</div></div></div>
+                <div style="height:120px;overflow:hidden;position:relative;border-top:1px solid rgba(2,107,98,0.3);margin-top:4px"><img src="uploads/boss_battle_cierre.gif" alt="Boss battle RPG cierre" style="width:100%;height:100%;object-fit:cover;object-position:center 40%"/><div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(27,31,48,0.75) 0%,rgba(27,31,48,0.35) 50%,transparent 100%);display:flex;align-items:center;padding:0 18px"><div style="font-size:12px;color:{{ t.g }};font-family:'Press Start 2P',monospace;animation:blink 1.2s infinite">▶ GAME OVER — THE HERO WON</div></div></div>
               </div>
             </div>
           </div>
